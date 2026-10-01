@@ -1,0 +1,1969 @@
+<!DOCTYPE html>
+<html lang="so">
+<head>
+    <meta charset="UTF-8">
+
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <meta name="description" content="Maan Transmitter & Deliver - Business Delivery Management System">
+
+    <title>Maan Transmitter & Deliver</title>
+
+    <!-- CSS -->
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+
+    <!-- =========================
+         LOGIN PAGE
+    ========================== -->
+
+    <div id="loginPage" class="login-page">
+
+        <div class="login-box">
+
+            <div class="logo-area">
+                <div id="loginBrandSvg" class="brand-logo brand-logo-large" aria-label="MTD logo">
+                    <svg class="brand-logo-svg" viewBox="0 0 620 620" role="img" aria-label="MTD brand logo">
+                        <g transform="translate(20,0)">
+                            <g transform="translate(58,20)">
+                                <path d="M55 230 L180 210 L245 100 L280 115 L230 220 L365 175 L510 196 L420 245 L512 305 L462 343 L378 303 L258 335 L245 360 L195 285 L125 330 L80 280 L160 245 Z" fill="#F07A1E"/>
+                                <path d="M232 170 L308 175 L270 230 L225 228 Z" fill="#0F2D4F" opacity="0.8"/>
+                                <circle cx="414" cy="194" r="17" fill="#0F2D4F"/>
+                                <circle cx="446" cy="194" r="17" fill="#0F2D4F"/>
+                                <circle cx="478" cy="194" r="17" fill="#0F2D4F"/>
+                                <path d="M72 114 L152 150 L82 190 L36 176 Z" fill="#F07A1E"/>
+                                <path d="M141 95 L221 118 L180 142 L110 140 Z" fill="#F07A1E"/>
+                                <path d="M250 90 L340 100 L310 144 L230 130 Z" fill="#F07A1E"/>
+                            </g>
+
+                            <g transform="translate(120,245)">
+                                <circle cx="190" cy="120" r="165" fill="#0E2B49"/>
+                                <path d="M37 118 C73 44, 158 12, 238 18 C315 25, 370 70, 389 126" fill="none" stroke="#F9F8F6" stroke-width="14" stroke-linecap="round" opacity="0.9"/>
+                                <path d="M30 184 C92 230, 201 252, 311 218 C354 203, 388 183, 408 165" fill="none" stroke="#F9F8F6" stroke-width="14" stroke-linecap="round" opacity="0.9"/>
+                                <path d="M70 68 C128 120, 167 155, 190 185" fill="none" stroke="#F9F8F6" stroke-width="12" stroke-linecap="round" opacity="0.9"/>
+                                <path d="M290 75 C240 120, 216 154, 190 190" fill="none" stroke="#F9F8F6" stroke-width="12" stroke-linecap="round" opacity="0.9"/>
+                                <path d="M190 0 L190 240" stroke="#F9F8F6" stroke-width="12" opacity="0.9"/>
+                                <path d="M25 120 L355 120" stroke="#F9F8F6" stroke-width="12" opacity="0.9"/>
+                                <path d="M84 38 L150 198" stroke="#F9F8F6" stroke-width="12" opacity="0.9"/>
+                                <path d="M286 38 L220 198" stroke="#F9F8F6" stroke-width="12" opacity="0.9"/>
+                                <path d="M30 84 C63 102, 159 116, 190 120 C219 124, 318 103, 355 84" fill="none" stroke="#F9F8F6" stroke-width="10" opacity="0.9"/>
+                                <path d="M25 156 C61 145, 164 134, 190 129 C221 123, 318 138, 356 156" fill="none" stroke="#F9F8F6" stroke-width="10" opacity="0.9"/>
+                            </g>
+
+                            <g transform="translate(150,380)">
+                                <rect x="110" y="0" width="170" height="170" rx="8" fill="#F07A1E"/>
+                                <rect x="150" y="50" width="90" height="90" rx="6" fill="#0E2B49"/>
+                                <path d="M155 120 L195 82 L235 120 L195 158 Z" fill="#F07A1E"/>
+                                <rect x="0" y="56" width="30" height="90" fill="#F07A1E"/>
+                                <rect x="0" y="76" width="110" height="30" fill="#0E2B49"/>
+                                <rect x="0" y="112" width="80" height="30" fill="#F07A1E"/>
+                                <path d="M228 56 L305 56 L305 104 L278 104 L278 156 L228 156 Z" fill="#F07A1E"/>
+                            </g>
+                        </g>
+                    </svg>
+                </div>
+                <img id="loginBrandImage" class="brand-logo brand-logo-large hidden" alt="Company logo" />
+
+                <h1>Maan Transmitter & Deliver</h1>
+
+                <p>Maamulka iyo gaarsiinta alaabaha</p>
+            </div>
+
+            <form id="loginForm">
+
+                <div class="form-group">
+                    <label for="email">Email</label>
+
+                    <input
+                        type="email"
+                        id="email"
+                        placeholder="Geli email-kaaga"
+                        required
+                    >
+                </div>
+
+                <div class="form-group">
+                    <label for="password">Password</label>
+
+                    <input
+                        type="password"
+                        id="password"
+                        placeholder="Geli password-kaaga"
+                        required
+                    >
+                </div>
+
+                <button type="submit" class="login-btn">
+                    Gal Dashboard
+                </button>
+
+            </form>
+
+            <p class="login-info">
+                Maan Transmitter & Deliver
+            </p>
+
+        </div>
+
+    </div>
+
+
+    <!-- =========================
+         MAIN DASHBOARD
+    ========================== -->
+
+    <div id="dashboardPage" class="dashboard-page hidden">
+
+        <!-- SIDEBAR -->
+
+        <aside class="sidebar">
+
+            <div class="sidebar-logo">
+
+                <div id="sidebarBrandSvg" class="brand-logo brand-logo-small" aria-label="MTD logo">
+                    <svg class="brand-logo-svg" viewBox="0 0 620 620" role="img" aria-label="MTD brand logo">
+                        <g transform="translate(20,0)">
+                            <g transform="translate(58,20)">
+                                <path d="M55 230 L180 210 L245 100 L280 115 L230 220 L365 175 L510 196 L420 245 L512 305 L462 343 L378 303 L258 335 L245 360 L195 285 L125 330 L80 280 L160 245 Z" fill="#F07A1E"/>
+                                <path d="M232 170 L308 175 L270 230 L225 228 Z" fill="#0F2D4F" opacity="0.8"/>
+                                <circle cx="414" cy="194" r="17" fill="#0F2D4F"/>
+                                <circle cx="446" cy="194" r="17" fill="#0F2D4F"/>
+                                <circle cx="478" cy="194" r="17" fill="#0F2D4F"/>
+                                <path d="M72 114 L152 150 L82 190 L36 176 Z" fill="#F07A1E"/>
+                                <path d="M141 95 L221 118 L180 142 L110 140 Z" fill="#F07A1E"/>
+                                <path d="M250 90 L340 100 L310 144 L230 130 Z" fill="#F07A1E"/>
+                            </g>
+
+                            <g transform="translate(120,245)">
+                                <circle cx="190" cy="120" r="165" fill="#0E2B49"/>
+                                <path d="M37 118 C73 44, 158 12, 238 18 C315 25, 370 70, 389 126" fill="none" stroke="#F9F8F6" stroke-width="14" stroke-linecap="round" opacity="0.9"/>
+                                <path d="M30 184 C92 230, 201 252, 311 218 C354 203, 388 183, 408 165" fill="none" stroke="#F9F8F6" stroke-width="14" stroke-linecap="round" opacity="0.9"/>
+                                <path d="M70 68 C128 120, 167 155, 190 185" fill="none" stroke="#F9F8F6" stroke-width="12" stroke-linecap="round" opacity="0.9"/>
+                                <path d="M290 75 C240 120, 216 154, 190 190" fill="none" stroke="#F9F8F6" stroke-width="12" stroke-linecap="round" opacity="0.9"/>
+                                <path d="M190 0 L190 240" stroke="#F9F8F6" stroke-width="12" opacity="0.9"/>
+                                <path d="M25 120 L355 120" stroke="#F9F8F6" stroke-width="12" opacity="0.9"/>
+                                <path d="M84 38 L150 198" stroke="#F9F8F6" stroke-width="12" opacity="0.9"/>
+                                <path d="M286 38 L220 198" stroke="#F9F8F6" stroke-width="12" opacity="0.9"/>
+                                <path d="M30 84 C63 102, 159 116, 190 120 C219 124, 318 103, 355 84" fill="none" stroke="#F9F8F6" stroke-width="10" opacity="0.9"/>
+                                <path d="M25 156 C61 145, 164 134, 190 129 C221 123, 318 138, 356 156" fill="none" stroke="#F9F8F6" stroke-width="10" opacity="0.9"/>
+                            </g>
+
+                            <g transform="translate(150,380)">
+                                <rect x="110" y="0" width="170" height="170" rx="8" fill="#F07A1E"/>
+                                <rect x="150" y="50" width="90" height="90" rx="6" fill="#0E2B49"/>
+                                <path d="M155 120 L195 82 L235 120 L195 158 Z" fill="#F07A1E"/>
+                                <rect x="0" y="56" width="30" height="90" fill="#F07A1E"/>
+                                <rect x="0" y="76" width="110" height="30" fill="#0E2B49"/>
+                                <rect x="0" y="112" width="80" height="30" fill="#F07A1E"/>
+                                <path d="M228 56 L305 56 L305 104 L278 104 L278 156 L228 156 Z" fill="#F07A1E"/>
+                            </g>
+                            <text x="310" y="610" font-size="170" font-weight="700" fill="#0E2B49" text-anchor="middle" font-family="Segoe UI, Arial, sans-serif">MTD</text>
+                        </g>
+                    </svg>
+                </div>
+                <img id="sidebarBrandImage" class="brand-logo brand-logo-small hidden" alt="Company logo" />
+
+                <div>
+                    <h2>Maan</h2>
+                    <span>Transmitter & Deliver</span>
+                </div>
+
+            </div>
+
+
+            <!-- MENU -->
+
+            <nav class="menu">
+
+                <a href="#" class="menu-link active" data-page="home">
+                    🏠
+                    <span>Dashboard</span>
+                </a>
+
+                <a href="#" class="menu-link" data-page="orders">
+                    📦
+                    <span>Orders</span>
+                </a>
+
+                <a href="#" class="menu-link" data-page="recycleBin">
+                    🗑️
+                    <span>Recycle Bin</span>
+                </a>
+
+                <a href="#" class="menu-link" data-page="customers">
+                    👥
+                    <span>Customers</span>
+                </a>
+
+                <a href="#" class="menu-link" data-page="deliveries">
+                    🚚
+                    <span>Deliveries</span>
+                </a>
+
+                <a href="#" class="menu-link" data-page="shipments">
+                    🌍
+                    <span>Shipments</span>
+                </a>
+
+                <a href="#" class="menu-link" data-page="payments">
+                    💳
+                    <span>Payments</span>
+                </a>
+
+                <a href="#" class="menu-link" data-page="reports">
+                    📊
+                    <span>Reports</span>
+                </a>
+
+                <a href="#" class="menu-link" data-page="monthly">
+                    📅
+                    <span>Monthly</span>
+                </a>
+
+                <a href="#" class="menu-link" data-page="profile">
+                    👤
+                    <span>Profile</span>
+                </a>
+
+                <a href="#" class="menu-link" data-page="badalFuran">
+                    🔐
+                    <span>Badal Furan</span>
+                </a>
+
+            </nav>
+
+
+            <!-- LOGOUT -->
+
+            <div class="sidebar-bottom">
+
+                <button id="logoutBtn" class="logout-btn">
+                    🚪 Logout
+                </button>
+
+            </div>
+
+        </aside>
+
+
+        <!-- MAIN CONTENT -->
+
+        <main class="main-content">
+
+
+            <!-- TOP HEADER -->
+
+            <header class="top-header">
+
+                <div class="header-left">
+
+                    <button id="mobileMenuBtn" class="mobile-menu-btn">
+                        ☰
+                    </button>
+
+                    <div>
+                        <h2 id="pageTitle">Dashboard</h2>
+
+                        <p id="pageSubtitle">
+                            Ku soo dhawoow Maan Transmitter & Deliver
+                        </p>
+                    </div>
+
+                </div>
+
+
+                <div class="header-right">
+
+                    <button class="notification-btn">
+                        🔔
+                        <span class="notification-count">3</span>
+                    </button>
+
+                    <div class="account-menu">
+                        <button type="button" class="account-trigger" id="accountMenuTrigger" aria-label="Account menu">
+                            <div class="user-profile">
+
+                                <div class="user-avatar">
+                                    A
+                                </div>
+
+                                <div class="user-info">
+
+                                    <strong id="currentUser">
+                                        Admin
+                                    </strong>
+
+                                    <small>
+                                        Administrator
+                                    </small>
+
+                                </div>
+
+                            </div>
+                            <span class="account-caret">▾</span>
+                        </button>
+
+                        <div class="account-menu-dropdown" id="accountMenuDropdown">
+                            <button type="button" class="quick-control-btn account-menu-item" data-action="profile">
+                                👤 Profile
+                            </button>
+                            <button type="button" class="quick-control-btn account-menu-item" data-action="password">
+                                🔒 Change Password
+                            </button>
+                        </div>
+                    </div>
+
+                </div>
+
+            </header>
+
+
+            <!-- =========================
+                 PAGE CONTENT
+            ========================== -->
+
+            <section class="content">
+
+
+                <!-- HOME -->
+
+                <div id="homePage" class="page active-page">
+
+                    <div class="welcome-card">
+
+                        <div class="dashboard-brand-wrap">
+
+                            <div class="dashboard-brand-block">
+                                <div class="dashboard-brand-mark" aria-label="MTD brand logo">
+                                    <svg class="brand-logo-svg brand-logo-dashboard" viewBox="0 0 620 620" role="img" aria-label="MTD brand logo">
+                                        <g transform="translate(20,0)">
+                                            <g transform="translate(58,20)">
+                                                <path d="M55 230 L180 210 L245 100 L280 115 L230 220 L365 175 L510 196 L420 245 L512 305 L462 343 L378 303 L258 335 L245 360 L195 285 L125 330 L80 280 L160 245 Z" fill="#F07A1E"/>
+                                                <path d="M232 170 L308 175 L270 230 L225 228 Z" fill="#0F2D4F" opacity="0.8"/>
+                                                <circle cx="414" cy="194" r="17" fill="#0F2D4F"/>
+                                                <circle cx="446" cy="194" r="17" fill="#0F2D4F"/>
+                                                <circle cx="478" cy="194" r="17" fill="#0F2D4F"/>
+                                                <path d="M72 114 L152 150 L82 190 L36 176 Z" fill="#F07A1E"/>
+                                                <path d="M141 95 L221 118 L180 142 L110 140 Z" fill="#F07A1E"/>
+                                                <path d="M250 90 L340 100 L310 144 L230 130 Z" fill="#F07A1E"/>
+                                            </g>
+
+                                            <g transform="translate(120,245)">
+                                                <circle cx="190" cy="120" r="165" fill="#0E2B49"/>
+                                                <path d="M37 118 C73 44, 158 12, 238 18 C315 25, 370 70, 389 126" fill="none" stroke="#F9F8F6" stroke-width="14" stroke-linecap="round" opacity="0.9"/>
+                                                <path d="M30 184 C92 230, 201 252, 311 218 C354 203, 388 183, 408 165" fill="none" stroke="#F9F8F6" stroke-width="14" stroke-linecap="round" opacity="0.9"/>
+                                                <path d="M70 68 C128 120, 167 155, 190 185" fill="none" stroke="#F9F8F6" stroke-width="12" stroke-linecap="round" opacity="0.9"/>
+                                                <path d="M290 75 C240 120, 216 154, 190 190" fill="none" stroke="#F9F8F6" stroke-width="12" stroke-linecap="round" opacity="0.9"/>
+                                                <path d="M190 0 L190 240" stroke="#F9F8F6" stroke-width="12" opacity="0.9"/>
+                                                <path d="M25 120 L355 120" stroke="#F9F8F6" stroke-width="12" opacity="0.9"/>
+                                                <path d="M84 38 L150 198" stroke="#F9F8F6" stroke-width="12" opacity="0.9"/>
+                                                <path d="M286 38 L220 198" stroke="#F9F8F6" stroke-width="12" opacity="0.9"/>
+                                                <path d="M30 84 C63 102, 159 116, 190 120 C219 124, 318 103, 355 84" fill="none" stroke="#F9F8F6" stroke-width="10" opacity="0.9"/>
+                                                <path d="M25 156 C61 145, 164 134, 190 129 C221 123, 318 138, 356 156" fill="none" stroke="#F9F8F6" stroke-width="10" opacity="0.9"/>
+                                            </g>
+
+                                            <g transform="translate(150,380)">
+                                                <rect x="110" y="0" width="170" height="170" rx="8" fill="#F07A1E"/>
+                                                <rect x="150" y="50" width="90" height="90" rx="6" fill="#0E2B49"/>
+                                                <path d="M155 120 L195 82 L235 120 L195 158 Z" fill="#F07A1E"/>
+                                                <rect x="0" y="56" width="30" height="90" fill="#F07A1E"/>
+                                                <rect x="0" y="76" width="110" height="30" fill="#0E2B49"/>
+                                                <rect x="0" y="112" width="80" height="30" fill="#F07A1E"/>
+                                                <path d="M228 56 L305 56 L305 104 L278 104 L278 156 L228 156 Z" fill="#F07A1E"/>
+                                            </g>
+                                            <text x="310" y="610" font-size="170" font-weight="700" fill="#0E2B49" text-anchor="middle" font-family="Segoe UI, Arial, sans-serif">MTD</text>
+                                        </g>
+                                    </svg>
+                                </div>
+                                <img id="dashboardBrandLogo" class="dashboard-brand-logo hidden" alt="Company logo" />
+                            </div>
+
+                            <div class="dashboard-brand-copy">
+
+                                <span>MAAN TRANSMITTER & DELIVER</span>
+
+                                <h1>
+                                    Ku soo dhawoow Dashboard-kaaga
+                                </h1>
+
+                                <p>
+                                    Halkaan waxaad ka maamuli kartaa
+                                    orders, customers, deliveries,
+                                    payments iyo xisaabaadka shirkadda.
+                                </p>
+
+                            </div>
+
+                        </div>
+
+                    </div>
+
+
+                    <!-- STATISTICS -->
+
+                    <div class="stats-grid">
+
+                        <div class="stat-card">
+
+                            <div class="stat-icon">
+                                📦
+                            </div>
+
+                            <div>
+                                <span>Orders</span>
+
+                                <h2 id="totalOrders">
+                                    0
+                                </h2>
+                            </div>
+
+                        </div>
+
+
+                        <div class="stat-card">
+
+                            <div class="stat-icon">
+                                👥
+                            </div>
+
+                            <div>
+                                <span>Customers</span>
+
+                                <h2 id="totalCustomers">
+                                    0
+                                </h2>
+                            </div>
+
+                        </div>
+
+
+                        <div class="stat-card">
+
+                            <div class="stat-icon">
+                                💰
+                            </div>
+
+                            <div>
+                                <span>Revenue</span>
+
+                                <h2 id="totalRevenue">
+                                    $0
+                                </h2>
+                            </div>
+
+                        </div>
+
+
+                        <div class="stat-card">
+
+                            <div class="stat-icon">
+                                🚚
+                            </div>
+
+                            <div>
+                                <span>Deliveries</span>
+
+                                <h2 id="totalDeliveries">
+                                    0
+                                </h2>
+                            </div>
+
+                        </div>
+
+                    </div>
+
+                    <div class="summary-strip">
+
+                        <div class="summary-box">
+                            <span>Orders Today</span>
+                            <h3 id="todayOrdersCount">0</h3>
+                        </div>
+
+                        <div class="summary-box">
+                            <span>This Month</span>
+                            <h3 id="thisMonthOrdersCount">0</h3>
+                        </div>
+
+                        <div class="summary-box">
+                            <span>Month Revenue</span>
+                            <h3 id="thisMonthRevenue">$0</h3>
+                        </div>
+
+                        <div class="summary-box bill-box" id="monthlyBillSummaryBox">
+                            <div class="bill-box-top">
+                                <span>Monthly Bill</span>
+                                <span class="bill-status" id="monthlyBillStatus">Unpaid</span>
+                            </div>
+                            <h3 id="monthlyBillAmount">$0</h3>
+                            <small id="monthlyBillDueDate">Due: -</small>
+                            <button type="button" id="payMonthlyBillBtn" class="success-btn small-btn" style="margin-top: 12px; width: 100%;">💳 Pay Bill</button>
+                        </div>
+
+                    </div>
+
+                    <div style="margin: 18px 0 10px; display: flex; justify-content: flex-start;">
+                        <button id="directPaymentBtn" type="button" class="success-btn primary-btn" style="min-width: 220px;">
+                            💸 Direct Payment
+                        </button>
+                    </div>
+
+                    <div id="directPaymentModal" class="admin-modal hidden">
+                        <div class="admin-modal-content">
+                            <button type="button" class="modal-close" data-close-direct-payment="true">×</button>
+                            <div class="modal-view">
+                                <h3>Direct Payment</h3>
+                                <p>Choose the amount and payment method, then save it to the database.</p>
+                                <form id="directPaymentForm">
+                                    <div class="form-grid">
+                                        <div class="form-group">
+                                            <label for="directPaymentMethod">Payment Method</label>
+                                            <select id="directPaymentMethod">
+                                                <option value="E-Plus">E-Plus</option>
+                                                <option value="E-Dahab">E-Dahab</option>
+                                            </select>
+                                        </div>
+                                        <div class="form-group">
+                                            <label for="directPaymentAmount">Amount</label>
+                                            <input type="number" id="directPaymentAmount" min="0" step="0.01" required>
+                                        </div>
+                                        <div class="form-group" style="grid-column: 1 / -1;">
+                                            <label for="directPaymentReference">Reference</label>
+                                            <input type="text" id="directPaymentReference" placeholder="Optional reference">
+                                        </div>
+                                        <div class="form-group" style="grid-column: 1 / -1;">
+                                            <label for="directPaymentDescription">Description</label>
+                                            <input type="text" id="directPaymentDescription" placeholder="Payment note">
+                                        </div>
+                                    </div>
+                                    <div class="payment-account-box" style="margin-top: 16px;">
+                                        <div><strong>E-Plus:</strong> 0613582084</div>
+                                        <div><strong>E-Dahab:</strong> 0613582084</div>
+                                    </div>
+                                    <div style="margin-top: 18px;">
+                                        <button type="submit" class="primary-btn">✅ Save and Send</button>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div id="monthlyBillModal" class="admin-modal hidden">
+                        <div class="admin-modal-content">
+                            <button type="button" class="modal-close" data-close-monthly-bill="true">×</button>
+                            <div class="modal-view">
+                                <h3>Company Payment</h3>
+                                <p>Pay the monthly company bill using the trusted bank details below.</p>
+                                <div class="payment-account-box">
+                                    <div><strong>Company:</strong> Maan Transmitter & Deliver</div>
+                                    <div><strong>E-Plus:</strong> 0613582084</div>
+                                    <div><strong>E-Dahab:</strong> 0613582084</div>
+                                    <div><strong>Reference:</strong> <span id="monthlyBillReference">Monthly Bill</span></div>
+                                    <div><strong>Amount:</strong> <span id="monthlyBillPayAmount">$0</span></div>
+                                </div>
+                                <div style="margin-top: 16px;">
+                                    <button type="button" id="markMonthlyBillPaidBtn" class="primary-btn">✅ Mark as Paid</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- DASHBOARD GRID -->
+
+                    <div class="dashboard-grid">
+
+
+                        <!-- RECENT ORDERS -->
+
+                        <div class="dashboard-card">
+
+                            <div class="card-header">
+
+                                <div>
+
+                                    <h3>Orders-kii ugu dambeeyay</h3>
+
+                                    <p>
+                                        Dalabaadka cusub
+                                    </p>
+
+                                </div>
+
+                                <button class="small-btn">
+                                    Arag Dhammaan
+                                </button>
+
+                            </div>
+
+
+                            <div class="table-wrapper">
+
+                                <table>
+
+                                    <thead>
+
+                                        <tr>
+
+                                            <th>Order ID</th>
+
+                                            <th>Customer</th>
+
+                                            <th>Meesha</th>
+
+                                            <th>Status</th>
+
+                                            <th>Taariikh</th>
+
+                                        </tr>
+
+                                    </thead>
+
+                                    <tbody id="recentOrders">
+
+                                        <tr>
+
+                                            <td colspan="5">
+                                                Wali orders ma jiraan.
+                                            </td>
+
+                                        </tr>
+
+                                    </tbody>
+
+                                </table>
+
+                            </div>
+
+                        </div>
+
+                        <div class="quick-action-panel">
+                            <div class="quick-action-header">
+                                <h3>Quick Actions</h3>
+                            </div>
+
+                            <div class="quick-action-list">
+                                <button type="button" class="quick-action-btn" id="quickNewOrderBtn">
+                                    ➕ New Order
+                                </button>
+                                <button type="button" class="quick-action-btn" id="quickNewCustomerBtn">
+                                    👤 New Customer
+                                </button>
+                                <button type="button" class="quick-action-btn" data-open-page="payments">
+                                    💳 Payments
+                                </button>
+                                <button type="button" class="quick-action-btn" data-open-page="shipments">
+                                    🌍 Shipments
+                                </button>
+                                <button type="button" class="quick-action-btn" data-open-page="reports">
+                                    📊 Reports
+                                </button>
+                            </div>
+                        </div>
+
+                    </div>
+
+                </div>
+
+
+                <!-- ORDERS -->
+
+                <div id="ordersPage" class="page">
+
+                    <div class="page-header">
+
+                        <div>
+                            <h1>Orders</h1>
+
+                            <p>
+                                Maamul dhammaan dalabaadka.
+                            </p>
+                        </div>
+
+                        <button id="addOrderBtn" class="primary-btn" type="button">
+                            ➕ Order Cusub
+                        </button>
+
+                    </div>
+
+                    <input type="hidden" id="orderEditId" />
+
+                    <div id="orderFormBox" class="dashboard-card hidden">
+
+                        <div class="card-header">
+
+                            <div>
+                                <h3>Order Cusub</h3>
+                                <p>Geli alaabta, dalabka, qofka loo dalbayo iyo khidmadda.</p>
+                            </div>
+
+                        </div>
+
+                        <form id="orderForm">
+
+                            <div class="form-grid">
+
+                                <div class="form-group">
+                                    <label for="orderCustomerName">Magaca customer-ka</label>
+                                    <input type="text" id="orderCustomerName" placeholder="Magaca macaamiisha" required>
+                                </div>
+
+                                <div class="form-group">
+                                    <label for="orderPhone">Phone</label>
+                                    <input type="tel" id="orderPhone" placeholder="+252..." required>
+                                </div>
+
+                                <div class="form-group">
+                                    <label for="orderItemName">Alaabta</label>
+                                    <input type="text" id="orderItemName" placeholder="Tusaale: Shoes / Bags / Phone" required>
+                                </div>
+
+                                <div class="form-group">
+                                    <label for="orderQuantity">QTY</label>
+                                    <input type="number" id="orderQuantity" min="1" value="1">
+                                </div>
+
+                                <div class="form-group">
+                                    <label for="orderCountry">Dalka laga dalbayo</label>
+                                    <input type="text" id="orderCountry" placeholder="Tusaale: China, Turkey, UAE" required>
+                                </div>
+
+                                <div class="form-group">
+                                    <label for="orderStatus">Status</label>
+                                    <select id="orderStatus">
+                                        <option value="Pending">Pending</option>
+                                        <option value="Processing">Processing</option>
+                                        <option value="In Transit">In Transit</option>
+                                        <option value="Delivered">Delivered</option>
+                                    </select>
+                                </div>
+
+                                <div class="form-group">
+                                    <label for="orderRecipientName">Qofka loo dalbayo</label>
+                                    <input type="text" id="orderRecipientName" placeholder="Magaca qofka loo dirayo" required>
+                                </div>
+
+                                <div class="form-group">
+                                    <label for="orderRecipientPhone">Telefoonka qofka loo dalbayo</label>
+                                    <input type="tel" id="orderRecipientPhone" placeholder="+252...">
+                                </div>
+
+                                <div class="form-group">
+                                    <label for="orderRecipientAddress">Address-ka</label>
+                                    <input type="text" id="orderRecipientAddress" placeholder="Goobta qaabkeeda">
+                                </div>
+
+                                <div class="form-group">
+                                    <label for="orderDeliveryFee">Fee</label>
+                                    <input type="number" id="orderDeliveryFee" min="0" value="0">
+                                </div>
+
+                                <div class="form-group">
+                                    <label for="orderTotalAmount">Wadarta</label>
+                                    <input type="number" id="orderTotalAmount" min="0" value="0">
+                                </div>
+
+                            </div>
+
+                            <div style="margin-top: 20px;">
+                                <button type="submit" class="primary-btn">💾 Kaydi Order</button>
+                                <button type="button" id="cancelOrderBtn" class="small-btn" style="margin-left: 10px;">Cancel</button>
+                            </div>
+
+                        </form>
+
+                    </div>
+
+                    <div class="dashboard-card">
+
+                        <div class="card-header">
+                            <div>
+                                <h3>Orders</h3>
+                                <p>Dhammaan dalabaadka gudaha database-ka</p>
+                            </div>
+                        </div>
+
+                        <div class="table-wrapper">
+                            <table>
+                                <thead>
+                                    <tr>
+                                        <th>ID</th>
+                                        <th>Customer</th>
+                                        <th>Alaabta</th>
+                                        <th>Country</th>
+                                        <th>Recipient</th>
+                                        <th>Fee</th>
+                                        <th>Wadarta</th>
+                                        <th>Status</th>
+                                        <th>Taariikh</th>
+                                        <th>Receipt</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="ordersTableBody">
+                                    <tr>
+                                        <td colspan="10">Wali order lama gelin.</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+
+                    </div>
+
+                </div>
+
+                <div id="orderReceiptModal" class="receipt-modal hidden" aria-modal="true" role="dialog">
+                    <div class="receipt-content">
+                        <div class="receipt-header-row">
+                            <h3>Professional Receipt</h3>
+                            <button id="closeReceiptBtn" type="button" class="small-btn">Close</button>
+                        </div>
+                        <div id="receiptContent"></div>
+                        <div class="receipt-actions">
+                            <button id="printReceiptBtn" class="primary-btn" type="button">Print Receipt</button>
+                        </div>
+                    </div>
+                </div>
+
+                <div id="recycleBinPage" class="page">
+
+                    <div class="page-header">
+                        <div>
+                            <h1>Recycle Bin</h1>
+                            <p>Orders-ka la tirtiray ayaa halkan lagu heli karaa.</p>
+                        </div>
+                    </div>
+
+                    <div class="dashboard-card">
+                        <div class="table-wrapper">
+                            <table>
+                                <thead>
+                                    <tr>
+                                        <th>ID</th>
+                                        <th>Customer</th>
+                                        <th>Alaabta</th>
+                                        <th>Country</th>
+                                        <th>Deleted At</th>
+                                        <th>Action</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="recycleBinTableBody">
+                                    <tr>
+                                        <td colspan="6">Recycle bin is empty.</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+
+                </div>
+
+
+                 <!-- CUSTOMERS -->
+
+<div id="customersPage" class="page">
+
+    <div class="page-header">
+
+        <div>
+
+            <h1>Customers</h1>
+
+            <p>
+                Maamul macaamiisha shirkadda.
+            </p>
+
+        </div>
+
+        <button
+            id="addCustomerBtn"
+            class="primary-btn"
+            type="button"
+        >
+            ➕ Customer Cusub
+        </button>
+
+    </div>
+
+
+    <!-- CUSTOMER FORM -->
+
+    <div
+        id="customerFormBox"
+        class="dashboard-card hidden"
+    >
+
+        <div class="card-header">
+
+            <div>
+
+                <h3>Customer Cusub</h3>
+
+                <p>
+                    Geli xogta macaamiisha.
+                </p>
+
+            </div>
+
+        </div>
+
+
+        <form id="customerForm">
+
+            <div class="form-grid">
+
+
+                <!-- NAME -->
+
+                <div class="form-group">
+
+                    <label for="customerName">
+                        Magaca
+                    </label>
+
+                    <input
+                        type="text"
+                        id="customerName"
+                        placeholder="Geli magaca customer-ka"
+                        required
+                    >
+
+                </div>
+
+
+                <!-- PHONE -->
+
+                <div class="form-group">
+
+                    <label for="customerPhone">
+                        Phone
+                    </label>
+
+                    <input
+                        type="tel"
+                        id="customerPhone"
+                        placeholder="+252..."
+                        required
+                    >
+
+                </div>
+
+
+                <!-- EMAIL -->
+
+                <div class="form-group">
+
+                    <label for="customerEmail">
+                        Email
+                    </label>
+
+                    <input
+                        type="email"
+                        id="customerEmail"
+                        placeholder="customer@email.com"
+                    >
+
+                </div>
+
+
+                <!-- ADDRESS -->
+
+                <div class="form-group">
+
+                    <label for="customerAddress">
+                        Address
+                    </label>
+
+                    <input
+                        type="text"
+                        id="customerAddress"
+                        placeholder="Geli address-ka"
+                    >
+
+                </div>
+
+            </div>
+
+
+            <div style="margin-top: 20px;">
+
+                <button
+                    type="submit"
+                    class="primary-btn"
+                >
+                    💾 Kaydi Customer
+                </button>
+
+                <button
+                    type="button"
+                    id="cancelCustomerBtn"
+                    class="small-btn"
+                    style="margin-left: 10px;"
+                >
+                    Cancel
+                </button>
+
+            </div>
+
+        </form>
+
+    </div>
+
+
+    <!-- CUSTOMER LIST -->
+
+    <div class="dashboard-card">
+
+        <div class="card-header">
+
+            <div>
+
+                <h3>Macaamiisha</h3>
+
+                <p>
+                    Dhammaan macaamiisha shirkadda
+                </p>
+
+            </div>
+
+        </div>
+
+
+        <div class="table-wrapper">
+
+            <table>
+
+                <thead>
+
+                    <tr>
+
+                        <th>ID</th>
+
+                        <th>Magaca</th>
+
+                        <th>Phone</th>
+
+                        <th>Email</th>
+
+                        <th>Address</th>
+
+                        <th>Taariikh</th>
+
+                    </tr>
+
+                </thead>
+
+
+                <tbody id="customersTableBody">
+
+                    <tr>
+
+                        <td colspan="6">
+                            Wali customer lama gelin.
+                        </td>
+
+                    </tr>
+
+                </tbody>
+
+            </table>
+
+        </div>
+
+    </div>
+
+</div>
+
+                <!-- DELIVERIES -->
+
+                <div id="deliveriesPage" class="page">
+
+                    <div class="page-header">
+
+                        <div>
+
+                            <h1>Deliveries</h1>
+
+                            <p>
+                                Maamul gaarsiinta dalabaadka.
+                            </p>
+
+                        </div>
+
+                        <button id="addDeliveryBtn" class="primary-btn" type="button">
+                            ➕ Delivery Cusub
+                        </button>
+
+                    </div>
+
+                    <div id="deliveryFormBox" class="dashboard-card hidden">
+                        <div class="card-header">
+                            <div>
+                                <h3>Delivery Cusub</h3>
+                                <p>Ku dar dalabka, dalka, iyo status-ka gaarsiinta.</p>
+                            </div>
+                        </div>
+
+                        <form id="deliveryForm">
+                            <div class="form-grid">
+                                <div class="form-group">
+                                    <label for="deliveryCustomerName">Customer</label>
+                                    <input type="text" id="deliveryCustomerName" required>
+                                </div>
+                                <div class="form-group">
+                                    <label for="deliveryPhone">Phone</label>
+                                    <input type="tel" id="deliveryPhone" required>
+                                </div>
+                                <div class="form-group">
+                                    <label for="deliveryCountry">Dalka</label>
+                                    <select id="deliveryCountry">
+                                        <option value="China">China</option>
+                                        <option value="Turkey">Turkey</option>
+                                        <option value="UAE">UAE</option>
+                                        <option value="Oman">Oman</option>
+                                        <option value="Qatar">Qatar</option>
+                                        <option value="Saudi Arabia">Saudi Arabia</option>
+                                        <option value="Somalia">Somalia</option>
+                                        <option value="Kenya">Kenya</option>
+                                        <option value="Ethiopia">Ethiopia</option>
+                                        <option value="Djibouti">Djibouti</option>
+                                    </select>
+                                </div>
+                                <div class="form-group">
+                                    <label for="deliveryItem">Alaabta</label>
+                                    <select id="deliveryItem">
+                                        <option value="Phone">Phone</option>
+                                        <option value="Bag">Bag</option>
+                                        <option value="Shoes">Shoes</option>
+                                        <option value="Clothes">Clothes</option>
+                                        <option value="Electronics">Electronics</option>
+                                        <option value="Accessories">Accessories</option>
+                                    </select>
+                                </div>
+                                <div class="form-group">
+                                    <label for="deliveryAddress">Address</label>
+                                    <input type="text" id="deliveryAddress" placeholder="Goobta loo geeyo">
+                                </div>
+                                <div class="form-group">
+                                    <label for="deliveryStatus">Status</label>
+                                    <select id="deliveryStatus">
+                                        <option value="Pending">Pending</option>
+                                        <option value="In Transit">In Transit</option>
+                                        <option value="Delivered">Delivered</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div style="margin-top: 20px;">
+                                <button type="submit" class="primary-btn">💾 Kaydi Delivery</button>
+                                <button type="button" id="cancelDeliveryBtn" class="small-btn" style="margin-left:10px;">Cancel</button>
+                            </div>
+                        </form>
+                    </div>
+
+                    <div class="dashboard-card">
+                        <div class="table-wrapper">
+                            <table>
+                                <thead>
+                                    <tr>
+                                        <th>ID</th>
+                                        <th>Customer</th>
+                                        <th>Country</th>
+                                        <th>Alaabta</th>
+                                        <th>Address</th>
+                                        <th>Status</th>
+                                        <th>Action</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="deliveriesTableBody">
+                                    <tr><td colspan="7">Wali deliveries lama gelin.</td></tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+
+                </div>
+
+
+                <!-- SHIPMENTS -->
+
+                <div id="shipmentsPage" class="page">
+
+                    <div class="page-header">
+
+                        <div>
+
+                            <h1>Shipments</h1>
+
+                            <p>
+                                Maamul alaabaha ka imaanaya wadamada gaadiidka.
+                            </p>
+
+                        </div>
+
+                        <button id="addShipmentBtn" class="primary-btn" type="button">
+                            ➕ Shipment Cusub
+                        </button>
+
+                    </div>
+
+                    <div id="shipmentFormBox" class="dashboard-card hidden">
+                        <div class="card-header">
+                            <div>
+                                <h3>Shipment Cusub</h3>
+                                <p>Ku dar tracking number, origin, supplier, iyo status-ka xamuulka.</p>
+                            </div>
+                        </div>
+
+                        <form id="shipmentForm">
+                            <div class="form-grid">
+                                <div class="form-group">
+                                    <label for="shipmentTrackingNumber">Tracking Number</label>
+                                    <input type="text" id="shipmentTrackingNumber" required>
+                                </div>
+                                <div class="form-group">
+                                    <label for="shipmentOrigin">Origin</label>
+                                    <select id="shipmentOrigin">
+                                        <option value="China">China</option>
+                                        <option value="Turkey">Turkey</option>
+                                        <option value="UAE">UAE</option>
+                                        <option value="Saudi Arabia">Saudi Arabia</option>
+                                        <option value="Oman">Oman</option>
+                                        <option value="Qatar">Qatar</option>
+                                        <option value="Somalia">Somalia</option>
+                                    </select>
+                                </div>
+                                <div class="form-group">
+                                    <label for="shipmentSupplier">Supplier</label>
+                                    <input type="text" id="shipmentSupplier" placeholder="Magaca supplier-ka">
+                                </div>
+                                <div class="form-group">
+                                    <label for="shipmentProduct">Product</label>
+                                    <input type="text" id="shipmentProduct" required>
+                                </div>
+                                <div class="form-group">
+                                    <label for="shipmentStatus">Status</label>
+                                    <select id="shipmentStatus">
+                                        <option value="In Transit">In Transit</option>
+                                        <option value="Delivered">Delivered</option>
+                                        <option value="Pending">Pending</option>
+                                        <option value="Customs Check">Customs Check</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div style="margin-top: 20px;">
+                                <button type="submit" class="primary-btn">💾 Kaydi Shipment</button>
+                                <button type="button" id="cancelShipmentBtn" class="small-btn" style="margin-left:10px;">Cancel</button>
+                            </div>
+                        </form>
+                    </div>
+
+                    <div class="dashboard-card">
+                        <div class="table-wrapper">
+                            <table>
+                                <thead>
+                                    <tr>
+                                        <th>ID</th>
+                                        <th>Tracking</th>
+                                        <th>Origin</th>
+                                        <th>Supplier</th>
+                                        <th>Product</th>
+                                        <th>Status</th>
+                                        <th>Action</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="shipmentsTableBody">
+                                    <tr><td colspan="7">Wali shipment lama gelin.</td></tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+
+                </div>
+
+
+                <!-- PAYMENTS -->
+
+                <div id="paymentsPage" class="page">
+
+                    <div class="page-header">
+
+                        <div>
+
+                            <h1>Payments</h1>
+
+                            <p>
+                                Maamul dhammaan lacag-bixinta.
+                            </p>
+
+                        </div>
+
+                        <button id="addPaymentBtn" class="primary-btn" type="button">
+                            ➕ Payment Cusub
+                        </button>
+
+                    </div>
+
+                    <div id="paymentFormBox" class="dashboard-card hidden">
+                        <div class="card-header">
+                            <div>
+                                <h3>Payment Cusub</h3>
+                                <p>Ku dar lacag bixinta cash, salaam, bank, ama e-dahab.</p>
+                            </div>
+                        </div>
+
+                        <form id="paymentForm">
+                            <div class="form-grid">
+                                <div class="form-group">
+                                    <label for="paymentCustomerName">Customer</label>
+                                    <input type="text" id="paymentCustomerName" required>
+                                </div>
+                                <div class="form-group">
+                                    <label for="paymentMethod">Method</label>
+                                    <select id="paymentMethod">
+                                        <option value="Cash">Cash</option>
+                                        <option value="Salaam">Salaam</option>
+                                        <option value="Bank">Bank</option>
+                                        <option value="E-Dahab">E-Dahab</option>
+                                    </select>
+                                </div>
+                                <div class="form-group">
+                                    <label for="paymentAmount">Amount</label>
+                                    <input type="number" id="paymentAmount" min="0" step="0.01" required>
+                                </div>
+                                <div class="form-group">
+                                    <label for="paymentReference">Reference</label>
+                                    <input type="text" id="paymentReference" placeholder="Transaction / invoice ID">
+                                </div>
+                                <div class="form-group" style="grid-column: 1 / -1;">
+                                    <label for="paymentDescription">Description</label>
+                                    <input type="text" id="paymentDescription" placeholder="Notes / receipt details">
+                                </div>
+                            </div>
+                            <div style="margin-top: 20px;">
+                                <button type="submit" class="primary-btn">💾 Kaydi Payment</button>
+                                <button type="button" id="cancelPaymentBtn" class="small-btn" style="margin-left:10px;">Cancel</button>
+                            </div>
+                        </form>
+                    </div>
+
+                    <div class="dashboard-card payment-template-card">
+                        <div class="card-header">
+                            <div>
+                                <h3>Payment Template</h3>
+                                <p>Foomka lacagta ee shirkadda</p>
+                            </div>
+                        </div>
+                        <div id="paymentAccountInfo" class="payment-account-box">
+                            <div><strong>Company:</strong> Maan Transmitter & Deliver</div>
+                            <div><strong>E-Dahab:</strong> 613582084</div>
+                            <div><strong>Second Number:</strong> 62 35820842</div>
+                            <div><strong>Message:</strong> Please send payment confirmation after transfer.</div>
+                        </div>
+                    </div>
+
+                    <div class="dashboard-card">
+                        <div class="table-wrapper">
+                            <table>
+                                <thead>
+                                    <tr>
+                                        <th>ID</th>
+                                        <th>Customer</th>
+                                        <th>Method</th>
+                                        <th>Amount</th>
+                                        <th>Reference</th>
+                                        <th>Date</th>
+                                        <th>Action</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="paymentsTableBody">
+                                    <tr><td colspan="7">Wali payments lama gelin.</td></tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+
+                </div>
+
+
+                <!-- ACCOUNTING -->
+
+                <div id="accountingPage" class="page">
+
+                    <div class="page-header">
+
+                        <div>
+
+                            <h1>Xisaabaad</h1>
+
+                            <p>
+                                Maamul dakhliga, kharashaadka iyo faa'iidada.
+                            </p>
+
+                        </div>
+
+                    </div>
+
+
+                    <div class="stats-grid">
+
+                        <div class="stat-card">
+
+                            <div class="stat-icon">
+                                💵
+                            </div>
+
+                            <div>
+
+                                <span>Dakhli</span>
+
+                                <h2 id="incomeTotal">
+                                    $0
+                                </h2>
+
+                            </div>
+
+                        </div>
+
+
+                        <div class="stat-card">
+
+                            <div class="stat-icon">
+                                💸
+                            </div>
+
+                            <div>
+
+                                <span>Kharash</span>
+
+                                <h2 id="expenseTotal">
+                                    $0
+                                </h2>
+
+                            </div>
+
+                        </div>
+
+
+                        <div class="stat-card">
+
+                            <div class="stat-icon">
+                                📈
+                            </div>
+
+                            <div>
+
+                                <span>Faa'iido</span>
+
+                                <h2 id="profitTotal">
+                                    $0
+                                </h2>
+
+                            </div>
+
+                        </div>
+
+                        <div class="stat-card">
+                            <div class="stat-icon">📦</div>
+                            <div>
+                                <span>Orders Total</span>
+                                <h2 id="ordersTotalValue">$0</h2>
+                            </div>
+                        </div>
+
+                    </div>
+
+                </div>
+
+
+                <!-- REPORTS -->
+
+                <div id="reportsPage" class="page">
+
+                    <div class="page-header">
+
+                        <div>
+
+                            <h1>Reports</h1>
+
+                            <p>
+                                Falanqee xogta shirkadda.
+                            </p>
+
+                        </div>
+
+                        <button id="addReportBtn" class="primary-btn" type="button">
+                            ➕ Report Cusub
+                        </button>
+
+                    </div>
+
+                    <div id="reportFormBox" class="dashboard-card hidden">
+                        <div class="card-header">
+                            <div>
+                                <h3>Report Cusub</h3>
+                                <p>Ku dar warbixin ama summary ga cusub.</p>
+                            </div>
+                        </div>
+
+                        <form id="reportForm">
+                            <div class="form-grid">
+                                <div class="form-group">
+                                    <label for="reportTitle">Title</label>
+                                    <input type="text" id="reportTitle" required>
+                                </div>
+                                <div class="form-group">
+                                    <label for="reportCategory">Category</label>
+                                    <select id="reportCategory">
+                                        <option value="General">General</option>
+                                        <option value="Sales">Sales</option>
+                                        <option value="Delivery">Delivery</option>
+                                        <option value="Operations">Operations</option>
+                                        <option value="Finance">Finance</option>
+                                    </select>
+                                </div>
+                                <div class="form-group">
+                                    <label for="reportStatus">Status</label>
+                                    <select id="reportStatus">
+                                        <option value="Draft">Draft</option>
+                                        <option value="Published">Published</option>
+                                        <option value="Review">Review</option>
+                                    </select>
+                                </div>
+                                <div class="form-group" style="grid-column: 1 / -1;">
+                                    <label for="reportSummary">Summary</label>
+                                    <textarea id="reportSummary" rows="4" placeholder="Falanqaynta report-ka..."></textarea>
+                                </div>
+                            </div>
+                            <div style="margin-top: 20px;">
+                                <button type="submit" class="primary-btn">💾 Kaydi Report</button>
+                                <button type="button" id="cancelReportBtn" class="small-btn" style="margin-left:10px;">Cancel</button>
+                            </div>
+                        </form>
+                    </div>
+
+                    <div class="stats-grid">
+                        <div class="stat-card"><div class="stat-icon">📊</div><div><span>Total Orders</span><h2 id="reportOrders">0</h2></div></div>
+                        <div class="stat-card"><div class="stat-icon">👥</div><div><span>Total Customers</span><h2 id="reportCustomers">0</h2></div></div>
+                        <div class="stat-card"><div class="stat-icon">💰</div><div><span>Total Revenue</span><h2 id="reportRevenue">$0</h2></div></div>
+                        <div class="stat-card"><div class="stat-icon">💸</div><div><span>Total Expenses</span><h2 id="reportExpenses">$0</h2></div></div>
+                    </div>
+
+                    <div class="report-insights-grid">
+                        <article class="report-insight-card cash-flow-card">
+                            <div class="report-insight-heading"><span class="report-insight-icon">↗</span><div><span>Cash Flow</span><small>Received minus expenses</small></div></div>
+                            <strong id="reportCashFlow">$0.00</strong>
+                            <div class="report-progress"><span id="reportCashFlowBar"></span></div>
+                            <small id="reportCashFlowNote">No cash movement recorded</small>
+                        </article>
+                        <article class="report-insight-card profit-card">
+                            <div class="report-insight-heading"><span class="report-insight-icon">✦</span><div><span>Net Profit</span><small>Current business result</small></div></div>
+                            <strong id="reportProfit">$0.00</strong>
+                            <small id="reportProfitNote">Income less expenses</small>
+                        </article>
+                        <article class="report-insight-card debt-card">
+                            <div class="report-insight-heading"><span class="report-insight-icon">!</span><div><span>Outstanding Debts</span><small>Unpaid order balance</small></div></div>
+                            <strong id="reportDebt">$0.00</strong>
+                            <small id="reportDebtNote">All order balances are clear</small>
+                        </article>
+                        <article class="report-insight-card incoming-card">
+                            <div class="report-insight-heading"><span class="report-insight-icon">→</span><div><span>Incoming Deliveries</span><small>Pending and in transit</small></div></div>
+                            <strong id="reportIncoming">0</strong>
+                            <small id="reportIncomingNote">No active deliveries</small>
+                        </article>
+                    </div>
+
+                    <div class="report-analysis-grid">
+                        <div class="dashboard-card report-analysis-card">
+                            <div class="card-header"><div><h3>Financial Overview</h3><p>Clear view of money in, money out, and balances.</p></div><span class="report-period-badge">Live</span></div>
+                            <div class="report-finance-rows">
+                                <div><span><i class="report-dot income-dot"></i>Cash received</span><strong id="reportCashReceived">$0.00</strong></div>
+                                <div><span><i class="report-dot expense-dot"></i>Expenses paid</span><strong id="reportExpensePaid">$0.00</strong></div>
+                                <div><span><i class="report-dot debt-dot"></i>Customer debts</span><strong id="reportDebtRow">$0.00</strong></div>
+                            </div>
+                        </div>
+                        <div class="dashboard-card report-analysis-card">
+                            <div class="card-header"><div><h3>Delivery Pipeline</h3><p>Where current shipments are today.</p></div></div>
+                            <div class="report-pipeline">
+                                <div><span>Pending</span><strong id="reportPendingDeliveries">0</strong></div>
+                                <div><span>In Transit</span><strong id="reportTransitDeliveries">0</strong></div>
+                                <div><span>Delivered</span><strong id="reportDeliveredDeliveries">0</strong></div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="dashboard-grid">
+                        <div class="dashboard-card">
+                            <div class="card-header">
+                                <div>
+                                    <h3>Top Countries</h3>
+                                    <p>Dalalka ugu badan</p>
+                                </div>
+                            </div>
+                            <ul id="countryReportList" class="metrics-list"></ul>
+                        </div>
+
+                        <div class="dashboard-card">
+                            <div class="card-header">
+                                <div>
+                                    <h3>Top Products</h3>
+                                    <p>Alaabaha ugu badan</p>
+                                </div>
+                            </div>
+                            <ul id="productReportList" class="metrics-list"></ul>
+                        </div>
+                    </div>
+
+                    <div class="dashboard-card" style="margin-top: 24px;">
+                        <div class="card-header">
+                            <div>
+                                <h3>Report List</h3>
+                                <p>Liiska warbixinnada shirkadda</p>
+                            </div>
+                        </div>
+
+                        <div class="table-wrapper">
+                            <table>
+                                <thead>
+                                    <tr>
+                                        <th>ID</th>
+                                        <th>Title</th>
+                                        <th>Category</th>
+                                        <th>Status</th>
+                                        <th>Summary</th>
+                                        <th>Created</th>
+                                        <th>Action</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="reportsTableBody">
+                                    <tr><td colspan="7">Wali report lama gelin.</td></tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+
+                </div>
+
+
+                <!-- MONTHLY -->
+
+                <div id="monthlyPage" class="page">
+
+                    <div class="page-header">
+
+                        <div>
+
+                            <h1>Monthly</h1>
+
+                            <p>
+                                Arag dakhliga iyo xisaabaadka bil kasta.
+                            </p>
+
+                        </div>
+
+                    </div>
+
+                    <div class="dashboard-card">
+
+                        <div class="month-selector">
+
+                            <label for="monthSelect">
+                                Dooro Bisha
+                            </label>
+
+                            <select id="monthSelect">
+
+                                <option>January</option>
+                                <option>February</option>
+                                <option>March</option>
+                                <option>April</option>
+                                <option>May</option>
+                                <option>June</option>
+                                <option>July</option>
+                                <option>August</option>
+                                <option>September</option>
+                                <option>October</option>
+                                <option>November</option>
+                                <option>December</option>
+
+                            </select>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+
+                <!-- PROFILE -->
+
+                <div id="profilePage" class="page">
+
+                    <div class="page-header">
+
+                        <div>
+
+                            <h1>Profile</h1>
+
+                            <p>
+                                Update your dashboard branding and cashier details.
+                            </p>
+
+                        </div>
+
+                    </div>
+
+                    <div class="dashboard-card">
+
+                        <form id="profileSettingsForm">
+                            <div class="form-grid">
+                                <div class="form-group">
+                                    <label for="profileCompanyNameInput">Company Name</label>
+                                    <input id="profileCompanyNameInput" type="text" value="Maan Transmitter & Deliver">
+                                </div>
+                                <div class="form-group">
+                                    <label for="profileCompanyEmailInput">Company Email</label>
+                                    <input id="profileCompanyEmailInput" type="email" placeholder="company@email.com">
+                                </div>
+                                <div class="form-group">
+                                    <label for="profileCashierNameInput">Cashier Name</label>
+                                    <input id="profileCashierNameInput" type="text" placeholder="Cashier name">
+                                </div>
+                                <div class="form-group">
+                                    <label for="profileCashierEmailInput">Cashier Email</label>
+                                    <input id="profileCashierEmailInput" type="email" placeholder="cashier@email.com">
+                                </div>
+                                <div class="form-group">
+                                    <label for="profilePhoneInput">Phone Number</label>
+                                    <input id="profilePhoneInput" type="tel" placeholder="+252 61 0000000">
+                                </div>
+                                <div class="form-group" style="grid-column: 1 / -1;">
+                                    <label for="profileDashboardLogoInput">Dashboard Logo</label>
+                                    <input id="profileDashboardLogoInput" type="file" accept="image/*">
+                                </div>
+                                <div class="form-group" style="grid-column: 1 / -1;">
+                                    <label for="profileCashierImageInput">Cashier Image</label>
+                                    <input id="profileCashierImageInput" type="file" accept="image/*">
+                                </div>
+                            </div>
+
+                            <div class="logo-preview-box">
+                                <img id="profileDashboardLogoPreview" alt="Dashboard logo preview" class="hidden" />
+                                <img id="profileCashierImagePreview" alt="Cashier image preview" class="hidden" />
+                            </div>
+
+                            <div style="margin-top: 16px; display: flex; gap: 10px; flex-wrap: wrap;">
+                                <button type="button" class="small-btn" id="removeProfileDashboardLogoBtn">Remove Dashboard Logo</button>
+                                <button type="button" class="small-btn" id="removeProfileCashierImageBtn">Remove Cashier Image</button>
+                            </div>
+
+                            <button type="submit" class="primary-btn" style="margin-top: 20px;">Save Profile</button>
+                        </form>
+
+                    </div>
+
+                </div>
+
+                <!-- SETTINGS -->
+
+                <div id="settingsPage" class="page">
+
+                    <div class="page-header">
+
+                        <div>
+
+                            <h1>Settings</h1>
+
+                            <p>
+                                Maamul settings-ka shirkadda.
+                            </p>
+
+                        </div>
+
+                    </div>
+
+
+                    <div class="dashboard-card">
+
+                        <h3>Company Information</h3>
+
+                        <form id="settingsForm">
+                            <div class="form-grid">
+                                <div class="form-group">
+                                    <label for="companyNameInput">Magaca Shirkadda</label>
+                                    <input id="companyNameInput" type="text" value="Maan Transmitter & Deliver">
+                                </div>
+                                <div class="form-group">
+                                    <label for="companyCountryInput">Dalka</label>
+                                    <input id="companyCountryInput" type="text" value="Somalia">
+                                </div>
+                                <div class="form-group">
+                                    <label for="companyPhoneInput">Phone</label>
+                                    <input id="companyPhoneInput" type="tel" placeholder="+252...">
+                                </div>
+                                <div class="form-group">
+                                    <label for="companyEmailInput">Email</label>
+                                    <input id="companyEmailInput" type="email" placeholder="company@email.com">
+                                </div>
+                                <div class="form-group">
+                                    <label for="companyCurrencyInput">Currency</label>
+                                    <input id="companyCurrencyInput" type="text" value="USD">
+                                </div>
+                                <div class="form-group">
+                                    <label for="companyWebsiteInput">Website</label>
+                                    <input id="companyWebsiteInput" type="url" placeholder="https://example.com">
+                                </div>
+                                <div class="form-group">
+                                    <label for="companyEdahabNumberInput">E-Dahab Number</label>
+                                    <input id="companyEdahabNumberInput" type="text" value="613582084" placeholder="613582084">
+                                </div>
+                                <div class="form-group">
+                                    <label for="companyEdahabAltInput">Second E-Dahab Number</label>
+                                    <input id="companyEdahabAltInput" type="text" value="62 35820842" placeholder="62 35820842">
+                                </div>
+                                <div class="form-group" style="grid-column: 1 / -1;">
+                                    <label for="paymentTemplateTextInput">Payment Instructions</label>
+                                    <textarea id="paymentTemplateTextInput" rows="3" placeholder="Please send payment confirmation after transfer.">Please send payment confirmation after transfer.</textarea>
+                                </div>
+                                <div class="form-group">
+                                    <label for="menuDashboardLabel">Dashboard Menu Label</label>
+                                    <input id="menuDashboardLabel" type="text" value="Dashboard">
+                                </div>
+                                <div class="form-group">
+                                    <label for="menuOrdersLabel">Orders Menu Label</label>
+                                    <input id="menuOrdersLabel" type="text" value="Orders">
+                                </div>
+                                <div class="form-group">
+                                    <label for="menuRecycleBinLabel">Recycle Bin Menu Label</label>
+                                    <input id="menuRecycleBinLabel" type="text" value="Recycle Bin">
+                                </div>
+                                <div class="form-group">
+                                    <label for="menuCustomersLabel">Customers Menu Label</label>
+                                    <input id="menuCustomersLabel" type="text" value="Customers">
+                                </div>
+                                <div class="form-group">
+                                    <label for="menuDeliveriesLabel">Deliveries Menu Label</label>
+                                    <input id="menuDeliveriesLabel" type="text" value="Deliveries">
+                                </div>
+                                <div class="form-group">
+                                    <label for="menuShipmentsLabel">Shipments Menu Label</label>
+                                    <input id="menuShipmentsLabel" type="text" value="Shipments">
+                                </div>
+                                <div class="form-group">
+                                    <label for="menuPaymentsLabel">Payments Menu Label</label>
+                                    <input id="menuPaymentsLabel" type="text" value="Payments">
+                                </div>
+                                <div class="form-group">
+                                    <label for="menuReportsLabel">Reports Menu Label</label>
+                                    <input id="menuReportsLabel" type="text" value="Reports">
+                                </div>
+                                <div class="form-group">
+                                    <label for="menuMonthlyLabel">Monthly Menu Label</label>
+                                    <input id="menuMonthlyLabel" type="text" value="Monthly">
+                                </div>
+                                <div class="form-group" style="grid-column: 1 / -1;">
+                                    <label for="companyLogoInput">Store Logo / Brand Image</label>
+                                    <input id="companyLogoInput" type="file" accept="image/*">
+                                </div>
+                                <div class="form-group" style="grid-column: 1 / -1;">
+                                    <label for="cashierImageInput">Cashier Image</label>
+                                    <input id="cashierImageInput" type="file" accept="image/*">
+                                </div>
+                            </div>
+
+                            <div class="logo-preview-box">
+                                <img id="companyLogoPreview" alt="Company logo preview" class="hidden" />
+                                <img id="cashierImagePreview" alt="Cashier image preview" class="hidden" />
+                            </div>
+
+                            <div style="margin-top: 16px; display: flex; gap: 10px; flex-wrap: wrap;">
+                                <button type="button" class="small-btn" id="removeCashierImageBtn">Remove Cashier Image</button>
+                                <button type="button" class="small-btn" id="removeCompanyLogoBtn">Remove Store Logo</button>
+                            </div>
+
+                            <button type="submit" class="primary-btn" style="margin-top: 20px;">Kaydi Settings</button>
+                        </form>
+
+                    </div>
+
+                </div>
+
+
+            </section>
+
+        </main>
+
+    </div>
+
+    <div id="adminSettingsModal" class="admin-modal hidden" aria-modal="true" role="dialog">
+        <div class="admin-modal-content">
+            <button type="button" class="modal-close" id="closeAdminModal" aria-label="Close">✕</button>
+
+            <div id="profileModalView" class="modal-view hidden">
+                <h3>Badal Furan</h3>
+                <p>Update your cashier contact details and login password.</p>
+
+                <form id="profileForm" class="modal-form">
+                    <div class="form-group">
+                        <label for="profileEmailInput">Email</label>
+                        <input id="profileEmailInput" type="email" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="profilePhoneInput">Phone Number</label>
+                        <input id="profilePhoneInput" type="tel" placeholder="+252 61 0000000" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="profileNameInput">Cashier Name</label>
+                        <input id="profileNameInput" type="text" placeholder="Cashier name" required>
+                    </div>
+
+                    <div class="form-row compact-row">
+                        <button type="button" class="small-btn" id="switchToPasswordBtn">Badal Furaha</button>
+                    </div>
+
+                    <button type="submit" class="primary-btn">Save Details</button>
+                </form>
+            </div>
+
+            <div id="passwordModalView" class="modal-view hidden">
+                <h3>Badal Furaha</h3>
+                <p>Beddel password-kaaga, email-kaaga, iyo lambarka telefoonka.</p>
+
+                <form id="passwordForm" class="modal-form">
+                    <div class="form-group">
+                        <label for="emailPasswordInput">Email-ka</label>
+                        <input id="emailPasswordInput" type="email" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="phonePasswordInput">Phone Number</label>
+                        <input id="phonePasswordInput" type="tel" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="currentPasswordInput">Current Password</label>
+                        <input id="currentPasswordInput" type="password" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="newPasswordInput">New Password</label>
+                        <input id="newPasswordInput" type="password" minlength="6" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="confirmPasswordInput">Confirm New Password</label>
+                        <input id="confirmPasswordInput" type="password" minlength="6" required>
+                    </div>
+
+                    <button type="submit" class="primary-btn">Badal Furaha</button>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <!-- JAVASCRIPT -->
+
+    <script src="app.js"></script>
+
+</body>
+</html>

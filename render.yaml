@@ -1,0 +1,15 @@
+services:
+  - type: web
+    name: maan-transmitter-deliver
+    env: node
+    plan: free
+    buildCommand: npm install
+    startCommand: npm start
+    healthCheckPath: /api
+    envVars:
+      - key: NODE_ENV
+        value: production
+      - key: PORT
+        value: 3000
+      - key: JWT_SECRET
+        value: MAAN_TRANSMITTER_SECRET_2026
