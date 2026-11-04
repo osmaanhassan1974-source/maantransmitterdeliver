@@ -12,4 +12,6 @@ services:
       - key: PORT
         value: 3000
       - key: JWT_SECRET
-        value: MAAN_TRANSMITTER_SECRET_2026
+        generateValue: true
+      - key: ADMIN_INITIAL_PASSWORD
+        generateValue: true

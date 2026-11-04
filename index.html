@@ -20,10 +20,9 @@
     ========================== -->
 
     <div id="loginPage" class="login-page">
-
-        <div class="login-box">
-
-            <div class="logo-area">
+        <div class="auth-shell">
+            <section class="auth-brand-panel">
+                <div class="auth-brand-top">
                 <div id="loginBrandSvg" class="brand-logo brand-logo-large" aria-label="MTD logo">
                     <svg class="brand-logo-svg" viewBox="0 0 620 620" role="img" aria-label="MTD brand logo">
                         <g transform="translate(20,0)">
@@ -65,48 +64,94 @@
                     </svg>
                 </div>
                 <img id="loginBrandImage" class="brand-logo brand-logo-large hidden" alt="Company logo" />
-
-                <h1>Maan Transmitter & Deliver</h1>
-
-                <p>Maamulka iyo gaarsiinta alaabaha</p>
-            </div>
-
-            <form id="loginForm">
-
-                <div class="form-group">
-                    <label for="email">Email</label>
-
-                    <input
-                        type="email"
-                        id="email"
-                        placeholder="Geli email-kaaga"
-                        required
-                    >
+                    <p class="auth-eyebrow" id="loginCompanyName">MAAN TRANSMITTER &amp; DELIVER</p>
+                    <h1>Move your business forward.</h1>
+                    <p class="auth-brand-copy">Maamul dalabaadka, gaarsiinta iyo xisaabaadka ganacsigaaga hal meel oo ammaan ah.</p>
                 </div>
-
-                <div class="form-group">
-                    <label for="password">Password</label>
-
-                    <input
-                        type="password"
-                        id="password"
-                        placeholder="Geli password-kaaga"
-                        required
-                    >
+                <div class="auth-brand-footer">
+                    <span class="auth-status-dot"></span>
+                    <span>Reliable operations. Secure access.</span>
                 </div>
+            </section>
 
-                <button type="submit" class="login-btn">
-                    Gal Dashboard
-                </button>
+            <main class="auth-main">
+                <div class="auth-card">
+                    <div class="auth-card-heading">
+                        <p class="auth-eyebrow">WELCOME</p>
+                        <h2 id="authHeading">Sign in to your account</h2>
+                        <p id="authSubheading">Geli faahfaahinta akoonkaaga si aad u sii wadato.</p>
+                    </div>
+                    <div class="auth-tabs" role="tablist" aria-label="Authentication options">
+                        <button type="button" class="auth-tab active" id="loginTab" role="tab" aria-selected="true" aria-controls="loginForm">Login</button>
+                        <button type="button" class="auth-tab" id="signupTab" role="tab" aria-selected="false" aria-controls="signupForm">New Account</button>
+                    </div>
 
-            </form>
+                    <form id="loginForm" class="auth-form">
+                        <div class="form-group">
+                            <label for="email">Email or Username</label>
+                            <input type="text" id="email" name="identifier" autocomplete="username" placeholder="name@company.com or username" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="password">Password</label>
+                            <div class="auth-password-field">
+                                <input type="password" id="password" name="password" autocomplete="current-password" placeholder="Enter your password" required>
+                                <button type="button" class="password-toggle" data-password-toggle="password" aria-label="Show password">Show</button>
+                            </div>
+                        </div>
+                        <div class="auth-options">
+                            <label class="remember-option"><input id="rememberMe" type="checkbox" checked> <span>Remember Me</span></label>
+                            <a class="auth-text-link" id="forgotPasswordLink" href="https://wa.me/252613582084?text=Asc%2C%20waxaan%20u%20baahanahay%20caawimaad%20dib-u-dejin%20password." target="_blank" rel="noopener noreferrer">Forgot Password?</a>
+                        </div>
+                        <button type="submit" class="login-btn auth-submit" id="loginSubmitBtn"><span>Sign In</span><span aria-hidden="true">→</span></button>
+                    </form>
 
-            <p class="login-info">
-                Maan Transmitter & Deliver
-            </p>
+                    <form id="signupForm" class="auth-form hidden" novalidate>
+                        <div class="auth-signup-grid">
+                            <div class="form-group">
+                                <label for="signupName">Full Name</label>
+                                <input type="text" id="signupName" name="name" autocomplete="name" maxlength="100" placeholder="Magacaaga oo buuxa" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="signupPhone">Phone Number</label>
+                                <input type="tel" id="signupPhone" name="phone" autocomplete="tel" maxlength="25" placeholder="+252 61 0000000" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="signupEmail">Email Address</label>
+                                <input type="email" id="signupEmail" name="email" autocomplete="email" maxlength="254" placeholder="name@company.com" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="signupUsername">Username</label>
+                                <input type="text" id="signupUsername" name="username" autocomplete="username" minlength="3" maxlength="30" placeholder="Choose a username" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="signupPassword">Password</label>
+                                <div class="auth-password-field">
+                                    <input type="password" id="signupPassword" name="new-password" autocomplete="new-password" minlength="12" placeholder="At least 12 characters" required>
+                                    <button type="button" class="password-toggle" data-password-toggle="signupPassword" aria-label="Show password">Show</button>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label for="signupConfirmPassword">Confirm Password</label>
+                                <div class="auth-password-field">
+                                    <input type="password" id="signupConfirmPassword" name="confirm-password" autocomplete="new-password" minlength="12" placeholder="Enter password again" required>
+                                    <button type="button" class="password-toggle" data-password-toggle="signupConfirmPassword" aria-label="Show password">Show</button>
+                                </div>
+                            </div>
+                        </div>
+                        <p class="auth-role-note"><span aria-hidden="true">◈</span> Akoon cusub wuxuu ku bilaabmaa doorka Staff. Admin-ku keliya ayaa maamuli kara oggolaanshaha.</p>
+                        <button type="submit" class="login-btn auth-submit" id="signupSubmitBtn"><span>Create Account</span><span aria-hidden="true">→</span></button>
+                    </form>
 
+                    <p id="authStatus" class="auth-status" role="status" aria-live="polite"></p>
+                    <a class="whatsapp-support" href="https://wa.me/252613582084" target="_blank" rel="noopener noreferrer">
+                        <span class="whatsapp-icon" aria-hidden="true">✆</span>
+                        <span><strong>Need Help? Contact Us on WhatsApp</strong><small>+252613582084 · We’re here to help</small></span>
+                        <span class="whatsapp-arrow" aria-hidden="true">↗</span>
+                    </a>
+                    <p class="auth-legal">By continuing, you agree to use this service responsibly.</p>
+                </div>
+            </main>
         </div>
-
     </div>
 
 
@@ -178,58 +223,58 @@
             <nav class="menu">
 
                 <a href="#" class="menu-link active" data-page="home">
-                    🏠
+                    <span class="menu-icon" aria-hidden="true">⌂</span>
                     <span>Dashboard</span>
                 </a>
 
                 <a href="#" class="menu-link" data-page="orders">
-                    📦
+                    <span class="menu-icon" aria-hidden="true">▣</span>
                     <span>Orders</span>
                 </a>
 
                 <a href="#" class="menu-link" data-page="recycleBin">
-                    🗑️
+                    <span class="menu-icon" aria-hidden="true">⌫</span>
                     <span>Recycle Bin</span>
                 </a>
 
                 <a href="#" class="menu-link" data-page="customers">
-                    👥
+                    <span class="menu-icon" aria-hidden="true">♙</span>
                     <span>Customers</span>
                 </a>
 
                 <a href="#" class="menu-link" data-page="deliveries">
-                    🚚
+                    <span class="menu-icon" aria-hidden="true">➜</span>
                     <span>Deliveries</span>
                 </a>
 
                 <a href="#" class="menu-link" data-page="shipments">
-                    🌍
+                    <span class="menu-icon" aria-hidden="true">◎</span>
                     <span>Shipments</span>
                 </a>
 
                 <a href="#" class="menu-link" data-page="payments">
-                    💳
+                    <span class="menu-icon" aria-hidden="true">$</span>
                     <span>Payments</span>
                 </a>
 
                 <a href="#" class="menu-link" data-page="reports">
-                    📊
+                    <span class="menu-icon" aria-hidden="true">▥</span>
                     <span>Reports</span>
                 </a>
 
                 <a href="#" class="menu-link" data-page="monthly">
-                    📅
+                    <span class="menu-icon" aria-hidden="true">▦</span>
                     <span>Monthly</span>
                 </a>
 
                 <a href="#" class="menu-link" data-page="profile">
-                    👤
+                    <span class="menu-icon" aria-hidden="true">♙</span>
                     <span>Profile</span>
                 </a>
 
                 <a href="#" class="menu-link" data-page="badalFuran">
-                    🔐
-                    <span>Badal Furan</span>
+                    <span class="menu-icon" aria-hidden="true">◈</span>
+                    <span>Password &amp; Security</span>
                 </a>
 
             </nav>
@@ -295,7 +340,7 @@
                                         Admin
                                     </strong>
 
-                                    <small>
+                                    <small id="currentUserRole">
                                         Administrator
                                     </small>
 
@@ -1392,7 +1437,7 @@
 
                         <div>
 
-                            <h1>Xisaabaad</h1>
+                            <h1>Accounting</h1>
 
                             <p>
                                 Maamul dakhliga, kharashaadka iyo faa'iidada.
@@ -1413,7 +1458,7 @@
 
                             <div>
 
-                                <span>Dakhli</span>
+                                <span>Revenue</span>
 
                                 <h2 id="incomeTotal">
                                     $0
@@ -1432,7 +1477,7 @@
 
                             <div>
 
-                                <span>Kharash</span>
+                                <span>Expenses</span>
 
                                 <h2 id="expenseTotal">
                                     $0
@@ -1451,7 +1496,7 @@
 
                             <div>
 
-                                <span>Faa'iido</span>
+                                <span>Profit</span>
 
                                 <h2 id="profitTotal">
                                     $0
@@ -1464,7 +1509,7 @@
                         <div class="stat-card">
                             <div class="stat-icon">📦</div>
                             <div>
-                                <span>Orders Total</span>
+                                <span>Order Value</span>
                                 <h2 id="ordersTotalValue">$0</h2>
                             </div>
                         </div>
@@ -1491,7 +1536,7 @@
                         </div>
 
                         <button id="addReportBtn" class="primary-btn" type="button">
-                            ➕ Report Cusub
+                            + New Report
                         </button>
 
                     </div>
@@ -1499,7 +1544,7 @@
                     <div id="reportFormBox" class="dashboard-card hidden">
                         <div class="card-header">
                             <div>
-                                <h3>Report Cusub</h3>
+                                <h3>New Report</h3>
                                 <p>Ku dar warbixin ama summary ga cusub.</p>
                             </div>
                         </div>
@@ -1534,7 +1579,7 @@
                                 </div>
                             </div>
                             <div style="margin-top: 20px;">
-                                <button type="submit" class="primary-btn">💾 Kaydi Report</button>
+                                <button type="submit" class="primary-btn">Save Report</button>
                                 <button type="button" id="cancelReportBtn" class="small-btn" style="margin-left:10px;">Cancel</button>
                             </div>
                         </form>
@@ -1587,6 +1632,34 @@
                                 <div><span>In Transit</span><strong id="reportTransitDeliveries">0</strong></div>
                                 <div><span>Delivered</span><strong id="reportDeliveredDeliveries">0</strong></div>
                             </div>
+                        </div>
+                    </div>
+
+                    <div class="dashboard-card monthly-closing-card">
+                        <div class="card-header">
+                            <div>
+                                <h3>Monthly Closing</h3>
+                                <p>Bisha marka ay dhammaato si otomaatig ah ayaa loo xiraa, warbixinteedana loo kaydiyaa.</p>
+                            </div>
+                            <span class="report-period-badge">Africa/Mogadishu</span>
+                        </div>
+                        <div class="table-wrapper">
+                            <table>
+                                <thead>
+                                    <tr>
+                                        <th>Period</th>
+                                        <th>Status</th>
+                                        <th>Revenue</th>
+                                        <th>Expenses</th>
+                                        <th>Profit / Loss</th>
+                                        <th>Closed At</th>
+                                        <th>Action</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="monthlyClosingsBody">
+                                    <tr><td colspan="7">Xisaab-xirrada bilaha waa la soo rarayaa...</td></tr>
+                                </tbody>
+                            </table>
                         </div>
                     </div>
 
@@ -1692,74 +1765,150 @@
 
                 </div>
 
-
                 <!-- PROFILE -->
 
                 <div id="profilePage" class="page">
-
                     <div class="page-header">
-
                         <div>
-
-                            <h1>Profile</h1>
-
-                            <p>
-                                Update your dashboard branding and cashier details.
-                            </p>
-
+                            <h1>Profile &amp; Business Settings</h1>
+                            <p>Maamul profile-kaaga, xogta ganacsiga, iyo kaydka xogta.</p>
                         </div>
-
                     </div>
 
-                    <div class="dashboard-card">
+                    <form id="profileSettingsForm" class="profile-settings-layout">
+                        <section class="dashboard-card profile-settings-card">
+                            <div class="profile-section-heading">
+                                <span class="profile-section-icon">01</span>
+                                <div>
+                                    <h2>Edit Profile</h2>
+                                    <p>Faahfaahinta akoonkaaga iyo sawirka profile-ka.</p>
+                                </div>
+                            </div>
+                            <div class="profile-photo-row">
+                                <img id="profileCashierImagePreview" class="profile-photo-preview hidden" alt="Profile photo preview">
+                                <div>
+                                    <label class="profile-upload-label" for="profileCashierImageInput">Profile Photo</label>
+                                    <input id="profileCashierImageInput" type="file" accept="image/png,image/jpeg,image/webp">
+                                    <small>PNG, JPG ama WebP; ugu badnaan 5 MB.</small>
+                                </div>
+                            </div>
+                            <div class="form-grid">
+                                <div class="form-group">
+                                    <label for="profileCashierNameInput">Full Name</label>
+                                    <input id="profileCashierNameInput" type="text" placeholder="Magacaaga" required>
+                                </div>
+                                <div class="form-group">
+                                    <label for="profileCashierEmailInput">Email Address</label>
+                                    <input id="profileCashierEmailInput" type="email" placeholder="name@company.com" required>
+                                </div>
+                                <div class="form-group">
+                                    <label for="profilePhoneInput">Phone Number</label>
+                                    <input id="profilePhoneInput" type="tel" placeholder="+252 61 0000000" required>
+                                </div>
+                                <div class="form-group">
+                                    <label>Password</label>
+                                    <button type="button" class="small-btn profile-password-button" id="profileChangePasswordBtn">Change Password</button>
+                                </div>
+                            </div>
+                        </section>
 
-                        <form id="profileSettingsForm">
+                        <section class="dashboard-card profile-settings-card" data-profile-admin-only>
+                            <div class="profile-section-heading">
+                                <span class="profile-section-icon">02</span>
+                                <div>
+                                    <h2>Business Information</h2>
+                                    <p>Xogta shirkadda ee ka muuqata dashboard-ka iyo dukumentiyada.</p>
+                                </div>
+                            </div>
+                            <div class="profile-photo-row">
+                                <img id="profileDashboardLogoPreview" class="profile-logo-preview hidden" alt="Company logo preview">
+                                <div>
+                                    <label class="profile-upload-label" for="profileDashboardLogoInput">Company Logo</label>
+                                    <input id="profileDashboardLogoInput" type="file" accept="image/png,image/jpeg,image/webp">
+                                    <small>PNG, JPG ama WebP; ugu badnaan 5 MB.</small>
+                                </div>
+                            </div>
                             <div class="form-grid">
                                 <div class="form-group">
                                     <label for="profileCompanyNameInput">Company Name</label>
-                                    <input id="profileCompanyNameInput" type="text" value="Maan Transmitter & Deliver">
+                                    <input id="profileCompanyNameInput" type="text" value="Maan Transmitter & Deliver" required>
                                 </div>
                                 <div class="form-group">
                                     <label for="profileCompanyEmailInput">Company Email</label>
                                     <input id="profileCompanyEmailInput" type="email" placeholder="company@email.com">
                                 </div>
                                 <div class="form-group">
-                                    <label for="profileCashierNameInput">Cashier Name</label>
-                                    <input id="profileCashierNameInput" type="text" placeholder="Cashier name">
+                                    <label for="profileCompanyPhoneInput">Company Phone</label>
+                                    <input id="profileCompanyPhoneInput" type="tel" placeholder="+252...">
                                 </div>
                                 <div class="form-group">
-                                    <label for="profileCashierEmailInput">Cashier Email</label>
-                                    <input id="profileCashierEmailInput" type="email" placeholder="cashier@email.com">
+                                    <label for="profileBusinessAddressInput">Business Address</label>
+                                    <input id="profileBusinessAddressInput" type="text" placeholder="Cinwaanka ganacsiga">
                                 </div>
                                 <div class="form-group">
-                                    <label for="profilePhoneInput">Phone Number</label>
-                                    <input id="profilePhoneInput" type="tel" placeholder="+252 61 0000000">
+                                    <label for="profileMerchantAddressInput">Merchant Address</label>
+                                    <input id="profileMerchantAddressInput" type="text" placeholder="Cinwaanka merchant-ka">
                                 </div>
-                                <div class="form-group" style="grid-column: 1 / -1;">
-                                    <label for="profileDashboardLogoInput">Dashboard Logo</label>
-                                    <input id="profileDashboardLogoInput" type="file" accept="image/*">
-                                </div>
-                                <div class="form-group" style="grid-column: 1 / -1;">
-                                    <label for="profileCashierImageInput">Cashier Image</label>
-                                    <input id="profileCashierImageInput" type="file" accept="image/*">
+                                <div class="form-group profile-details-field">
+                                    <label for="profileBusinessDetailsInput">Business Details</label>
+                                    <textarea id="profileBusinessDetailsInput" rows="4" placeholder="Faahfaahin ku saabsan ganacsiga"></textarea>
                                 </div>
                             </div>
+                        </section>
 
-                            <div class="logo-preview-box">
-                                <img id="profileDashboardLogoPreview" alt="Dashboard logo preview" class="hidden" />
-                                <img id="profileCashierImagePreview" alt="Cashier image preview" class="hidden" />
+                        <section class="dashboard-card profile-settings-card profile-data-card" data-profile-admin-only>
+                            <div class="profile-section-heading">
+                                <span class="profile-section-icon">03</span>
+                                <div>
+                                    <h2>Full Data Export</h2>
+                                    <p>Soo dejiso xogta application-ka oo dhan qaabka aad doorato.</p>
+                                </div>
                             </div>
-
-                            <div style="margin-top: 16px; display: flex; gap: 10px; flex-wrap: wrap;">
-                                <button type="button" class="small-btn" id="removeProfileDashboardLogoBtn">Remove Dashboard Logo</button>
-                                <button type="button" class="small-btn" id="removeProfileCashierImageBtn">Remove Cashier Image</button>
+                            <div class="profile-action-row">
+                                <button type="button" class="small-btn" data-export-format="xlsx">Export Excel</button>
+                                <button type="button" class="small-btn" data-export-format="csv">Export CSV</button>
+                                <button type="button" class="small-btn" data-export-format="pdf">Export PDF</button>
                             </div>
+                        </section>
 
-                            <button type="submit" class="primary-btn" style="margin-top: 20px;">Save Profile</button>
-                        </form>
+                        <section class="dashboard-card profile-settings-card profile-data-card" data-profile-admin-only>
+                            <div class="profile-section-heading">
+                                <span class="profile-section-icon">04</span>
+                                <div>
+                                    <h2>Backup &amp; Restore</h2>
+                                    <p>Samee ama soo celi kayd dhamaystiran oo database-ka ah.</p>
+                                </div>
+                            </div>
+                            <div class="backup-controls">
+                                <div>
+                                    <button type="button" class="primary-btn" id="createBackupBtn">Create Backup</button>
+                                    <p>Backup otomaatig ah ayaa maalin kasta samaysma.</p>
+                                </div>
+                                <div>
+                                    <label for="restoreBackupFile">Restore from File</label>
+                                    <input id="restoreBackupFile" type="file" accept="application/json,.json">
+                                </div>
+                            </div>
+                            <div class="table-wrapper backup-table-wrapper">
+                                <table>
+                                    <thead>
+                                        <tr><th>Backup</th><th>Date &amp; Time</th><th>Type</th><th>Actions</th></tr>
+                                    </thead>
+                                    <tbody id="backupListBody">
+                                        <tr><td colspan="4">Kaydadka waa la soo rarayaa...</td></tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </section>
 
-                    </div>
-
+                        <div class="profile-save-bar">
+                            <p id="profileSaveStatus" role="status" aria-live="polite"></p>
+                            <div>
+                                <button type="button" class="small-btn" id="cancelProfileChangesBtn">Cancel</button>
+                                <button type="submit" class="primary-btn" id="saveProfileChangesBtn">Save Changes</button>
+                            </div>
+                        </div>
+                    </form>
                 </div>
 
                 <!-- SETTINGS -->

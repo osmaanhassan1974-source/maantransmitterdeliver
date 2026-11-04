@@ -39,6 +39,40 @@ const mobileMenuBtn =
 const sidebar =
     document.querySelector(".sidebar");
 
+const authStorageKeys = new Set(["maanToken", "maanUser", "maanLoggedIn"]);
+const localStorage = new Proxy(window.localStorage, {
+    get(target, property) {
+        if (property === "getItem") {
+            return key => {
+                if (!authStorageKeys.has(String(key))) return window.localStorage.getItem(key);
+                const storage = window.localStorage.getItem("maanRememberMe") === "false"
+                    ? window.sessionStorage
+                    : window.localStorage;
+                return storage.getItem(key);
+            };
+        }
+        if (property === "setItem") {
+            return (key, value) => {
+                if (!authStorageKeys.has(String(key))) return window.localStorage.setItem(key, value);
+                const storage = window.localStorage.getItem("maanRememberMe") === "false"
+                    ? window.sessionStorage
+                    : window.localStorage;
+                const otherStorage = storage === window.localStorage ? window.sessionStorage : window.localStorage;
+                otherStorage.removeItem(key);
+                storage.setItem(key, value);
+            };
+        }
+        if (property === "removeItem") {
+            return key => {
+                window.localStorage.removeItem(key);
+                if (authStorageKeys.has(String(key))) window.sessionStorage.removeItem(key);
+            };
+        }
+        const value = Reflect.get(target, property, target);
+        return typeof value === "function" ? value.bind(target) : value;
+    }
+});
+
 
 // ==========================================
 // API URL
@@ -60,7 +94,7 @@ const defaultMenuItems = {
 
 function applyMenuLabels(menuItems = defaultMenuItems) {
     Object.entries(menuItems).forEach(([pageKey, label]) => {
-        const menuLabel = document.querySelector(`.menu-link[data-page="${pageKey}"] span`);
+        const menuLabel = document.querySelector(`.menu-link[data-page="${pageKey}"] span:not(.menu-icon)`);
         if (menuLabel && label && label.trim()) {
             menuLabel.textContent = label.trim();
         }
@@ -75,95 +109,171 @@ function applyMenuLabels(menuItems = defaultMenuItems) {
 // LOGIN - DATABASE
 // ==========================================
 
-loginForm.addEventListener("submit", async function (event) {
+const authStatus = document.getElementById("authStatus");
+const rememberMeInput = document.getElementById("rememberMe");
+const loginSubmitBtn = document.getElementById("loginSubmitBtn");
+const signupForm = document.getElementById("signupForm");
 
-    event.preventDefault();
+function setAuthStatus(message, isError = false) {
+    if (!authStatus) return;
+    authStatus.textContent = message;
+    authStatus.classList.toggle("is-error", isError);
+}
 
-    const email =
-        document.getElementById("email").value.trim();
-
-    const password =
-        document.getElementById("password").value.trim();
-
-
-    if (!email || !password) {
-
-        alert("Fadlan geli Email iyo Password.");
-
-        return;
-
-    }
-
-
+async function loadPublicLoginBranding() {
     try {
-
-        const response = await fetch("/api/login", {
-
-            method: "POST",
-
-            headers: {
-                "Content-Type": "application/json"
-            },
-
-            body: JSON.stringify({
-
-                email: email,
-
-                password: password
-
-            })
-
-        });
-
-
+        const response = await fetch(`${API_URL}/public/branding`, { cache: "no-store" });
         const result = await response.json();
-
-
-        if (!result.success) {
-
-            alert(result.message);
-
-            return;
-
+        if (!response.ok || !result.success || !result.data) {
+            throw new Error(result.message || "Company branding could not be loaded.");
         }
 
+        const companyName = document.getElementById("loginCompanyName");
+        if (companyName) companyName.textContent = result.data.companyName.toUpperCase();
 
-        // Login successful
-
-        localStorage.setItem(
-            "maanLoggedIn",
-            "true"
-        );
-
-
-        localStorage.setItem(
-            "maanToken",
-            result.token
-        );
-
-
-        localStorage.setItem(
-            "maanUser",
-            JSON.stringify(result.user)
-        );
-
-
-        showDashboard();
-
-
+        const logoImage = document.getElementById("loginBrandImage");
+        const fallbackLogo = document.getElementById("loginBrandSvg");
+        if (!logoImage || !fallbackLogo) return;
+        logoImage.onerror = () => {
+            logoImage.classList.add("hidden");
+            logoImage.removeAttribute("src");
+            fallbackLogo.classList.remove("hidden");
+        };
+        if (result.data.logo) {
+            logoImage.src = result.data.logo;
+            logoImage.classList.remove("hidden");
+            fallbackLogo.classList.add("hidden");
+        } else {
+            logoImage.removeAttribute("src");
+            logoImage.classList.add("hidden");
+            fallbackLogo.classList.remove("hidden");
+        }
     } catch (error) {
+        console.error("Login branding error:", error);
+    }
+}
 
-        console.error(
-            "Login error:",
-            error
-        );
+loadPublicLoginBranding();
 
-        alert(
-            "Server-ka lama xiriiri karo. Hubi inuu server-ku shaqeynayo."
-        );
+function showAuthMode(mode) {
+    const isSignup = mode === "signup";
+    loginForm.classList.toggle("hidden", isSignup);
+    signupForm.classList.toggle("hidden", !isSignup);
+    document.getElementById("loginTab").classList.toggle("active", !isSignup);
+    document.getElementById("signupTab").classList.toggle("active", isSignup);
+    document.getElementById("loginTab").setAttribute("aria-selected", String(!isSignup));
+    document.getElementById("signupTab").setAttribute("aria-selected", String(isSignup));
+    document.getElementById("authHeading").textContent = isSignup ? "Create your account" : "Sign in to your account";
+    document.getElementById("authSubheading").textContent = isSignup
+        ? "Ku bilow akoon cusub si aad u isticmaasho adeegga."
+        : "Geli faahfaahinta akoonkaaga si aad u sii wadato.";
+    setAuthStatus("");
+}
 
+document.getElementById("loginTab")?.addEventListener("click", () => showAuthMode("login"));
+document.getElementById("signupTab")?.addEventListener("click", () => showAuthMode("signup"));
+
+document.querySelectorAll("[data-password-toggle]").forEach(button => {
+    button.addEventListener("click", () => {
+        const input = document.getElementById(button.dataset.passwordToggle);
+        if (!input) return;
+        const reveal = input.type === "password";
+        input.type = reveal ? "text" : "password";
+        button.textContent = reveal ? "Hide" : "Show";
+        button.setAttribute("aria-label", reveal ? "Hide password" : "Show password");
+    });
+});
+
+async function establishLoginSession(result) {
+    window.localStorage.setItem("maanRememberMe", rememberMeInput?.checked === false ? "false" : "true");
+    localStorage.setItem("maanLoggedIn", "true");
+    localStorage.setItem("maanToken", result.token);
+    localStorage.setItem("maanUser", JSON.stringify(result.user));
+    showDashboard();
+}
+
+loginForm.addEventListener("submit", async function (event) {
+    event.preventDefault();
+    const identifier = document.getElementById("email").value.trim();
+    const password = document.getElementById("password").value;
+    if (!identifier || !password) {
+        setAuthStatus("Geli username/email iyo password-kaaga.", true);
+        return;
     }
 
+    try {
+        loginSubmitBtn.disabled = true;
+        loginSubmitBtn.classList.add("is-loading");
+        setAuthStatus("Waa lagu xaqiijinayaa...");
+        const response = await fetch("/api/login", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ identifier, password })
+        });
+        const result = await response.json();
+        if (!response.ok || !result.success) {
+            setAuthStatus(result.message || "Login-ku ma suurtagelin.", true);
+            return;
+        }
+        await establishLoginSession(result);
+    } catch (error) {
+        console.error("Login error:", error);
+        setAuthStatus("Server-ka lama xiriiri karo. Hubi inuu shaqaynayo.", true);
+    } finally {
+        loginSubmitBtn.disabled = false;
+        loginSubmitBtn.classList.remove("is-loading");
+    }
+});
+
+signupForm?.addEventListener("submit", async function (event) {
+    event.preventDefault();
+    if (!signupForm.reportValidity()) return;
+
+    const password = document.getElementById("signupPassword").value;
+    const confirmPassword = document.getElementById("signupConfirmPassword").value;
+    const username = document.getElementById("signupUsername").value.trim();
+    if (password !== confirmPassword) {
+        setAuthStatus("Labada password isma laha.", true);
+        document.getElementById("signupConfirmPassword").focus();
+        return;
+    }
+    if (!/^[a-z0-9._-]{3,30}$/i.test(username)) {
+        setAuthStatus("Username-ku ha noqdo 3 ilaa 30 xaraf: English letters, tirooyin, ., _ ama -.", true);
+        document.getElementById("signupUsername").focus();
+        return;
+    }
+
+    const submitButton = document.getElementById("signupSubmitBtn");
+    const payload = {
+        name: document.getElementById("signupName").value.trim(),
+        phone: document.getElementById("signupPhone").value.trim(),
+        email: document.getElementById("signupEmail").value.trim(),
+        username,
+        password
+    };
+    try {
+        submitButton.disabled = true;
+        submitButton.classList.add("is-loading");
+        setAuthStatus("Akoonka waa la abuurayaa...");
+        const response = await fetch("/api/register", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify(payload)
+        });
+        const result = await response.json();
+        if (!response.ok || !result.success) {
+            setAuthStatus(result.message || "Akoonka lama samayn karin.", true);
+            return;
+        }
+        signupForm.reset();
+        await establishLoginSession(result);
+    } catch (error) {
+        console.error("Registration error:", error);
+        setAuthStatus("Server-ka lama xiriiri karo. Akoonka lama samayn karin.", true);
+    } finally {
+        submitButton.disabled = false;
+        submitButton.classList.remove("is-loading");
+    }
 });
 
 // ==========================================
@@ -277,6 +387,8 @@ function showDashboard() {
                 "currentUser"
             ).textContent =
                 user.name || "Admin";
+            const userRoleLabel = document.getElementById("currentUserRole");
+            if (userRoleLabel) userRoleLabel.textContent = user.role === "admin" ? "Administrator" : "Staff";
 
 
         } catch (error) {
@@ -355,7 +467,7 @@ logoutBtn.addEventListener(
 // CHECK LOGIN
 // ==========================================
 
-function checkLogin() {
+async function checkLogin() {
 
     const token =
         localStorage.getItem(
@@ -370,8 +482,32 @@ function checkLogin() {
 
 
     if (token && user) {
-
-        showDashboard();
+        try {
+            const response = await fetch(`${API_URL}/admin/profile`, {
+                headers: { Authorization: `Bearer ${token}` }
+            });
+            if (response.status === 401) {
+                localStorage.removeItem("maanLoggedIn");
+                localStorage.removeItem("maanToken");
+                localStorage.removeItem("maanUser");
+                loginPage.classList.remove("hidden");
+                dashboardPage.classList.add("hidden");
+                return;
+            }
+            if (!response.ok) {
+                throw new Error("Akoonka lama xaqiijin karin.");
+            }
+            const session = await response.json();
+            if (session.success && session.data) {
+                localStorage.setItem("maanUser", JSON.stringify(session.data));
+            }
+            showDashboard();
+        } catch (error) {
+            console.error("Session verification error:", error);
+            loginPage.classList.remove("hidden");
+            dashboardPage.classList.add("hidden");
+            alert("Server-ka lama xiriiri karo. Hubi inuu shaqaynayo, kadibna bogga dib u cusboonaysii.");
+        }
 
     } else {
 
@@ -490,6 +626,11 @@ function openPage(pageName) {
             "active"
         );
 
+    }
+
+    if (pageName === "profile") {
+        loadSettings();
+        loadBackups();
     }
 
 
@@ -2074,6 +2215,61 @@ async function loadReports() {
         const deliveries = deliveriesData.data || [];
         const shipments = shipmentsData.data || [];
 
+        const closingsResponse = await fetch(`${API_URL}/monthly-closings`, {
+            headers: { Authorization: `Bearer ${token}` }
+        });
+        const closingsResult = await closingsResponse.json();
+        if (!closingsResponse.ok || !closingsResult.success) {
+            throw new Error(closingsResult.message || "Xisaab-xirrada lama soo rari karin.");
+        }
+        const closings = closingsResult.data || [];
+        const closingTable = document.getElementById("monthlyClosingsBody");
+        if (closingTable) {
+            if (!closings.length) {
+                closingTable.innerHTML = `<tr><td colspan="7">Weli bil xiran ma jiro. Xisaab-xirku si otomaatig ah ayuu u shaqayn doonaa dhammaadka bisha.</td></tr>`;
+            } else {
+                const currentUser = JSON.parse(localStorage.getItem("maanUser") || "{}");
+                closingTable.innerHTML = closings.slice().sort((a, b) => b.period.localeCompare(a.period)).map(closing => {
+                    const isClosed = closing.status !== "reopened";
+                    const action = isClosed && currentUser.role === "admin"
+                        ? `<button type="button" class="small-btn" data-reopen-month="${escapeHtml(closing.period)}">Reopen Month</button>`
+                        : isClosed ? "Admin only" : "Records unlocked";
+                    return `<tr>
+                        <td>${escapeHtml(closing.period)}</td>
+                        <td><span class="closing-status ${isClosed ? "is-closed" : "is-reopened"}">${isClosed ? "Closed" : "Reopened"}</span></td>
+                        <td>${formatMoney(closing.revenue)}</td>
+                        <td>${formatMoney(closing.expenses)}</td>
+                        <td>${formatMoney(closing.profit)}</td>
+                        <td>${closing.closedAt ? new Date(closing.closedAt).toLocaleString() : "-"}</td>
+                        <td>${action}</td>
+                    </tr>`;
+                }).join("");
+
+                closingTable.querySelectorAll("[data-reopen-month]").forEach(button => {
+                    button.addEventListener("click", async function () {
+                        const period = this.dataset.reopenMonth;
+                        if (!confirm(`Dib ma u furaysaa ${period}? Diiwaannada muddadaas mar kale waa la beddeli karaa.`)) return;
+                        try {
+                            const response = await fetch(`${API_URL}/monthly-closings/${encodeURIComponent(period)}/reopen`, {
+                                method: "POST",
+                                headers: { Authorization: `Bearer ${token}` }
+                            });
+                            const result = await response.json();
+                            if (!response.ok || !result.success) {
+                                alert(result.message || "Bisha dib looma furi karin.");
+                                return;
+                            }
+                            alert(result.message);
+                            loadReports();
+                        } catch (error) {
+                            console.error("Reopen month error:", error);
+                            alert("Bisha dib looma furi karin; hubi xiriirka server-ka.");
+                        }
+                    });
+                });
+            }
+        }
+
         const cashReceived = payments.reduce((sum, payment) => sum + Number(payment.amount || 0), 0);
         const expensesPaid = expenses.reduce((sum, expense) => sum + Number(expense.amount || 0), 0);
         const billedTotal = orders.reduce((sum, order) => sum + Number(order.totalAmount || order.amount || 0), 0);
@@ -2154,18 +2350,21 @@ async function loadReports() {
             tableBody.innerHTML = reports.map(function (report) {
                 const date = report.createdAt ? new Date(report.createdAt).toLocaleDateString() : "-";
                 const summary = report.summary ? (report.summary.length > 50 ? report.summary.slice(0, 50) + "..." : report.summary) : "-";
+                const actions = report.autoGenerated === "monthly-closing"
+                    ? "System generated"
+                    : `<button type="button" class="small-btn" data-report-edit="${escapeHtml(report.id)}">Edit</button>
+                       <button type="button" class="small-btn danger-btn" data-report-delete="${escapeHtml(report.id)}">Delete</button>`;
                 return `
                     <tr>
-                        <td>${report.id}</td>
-                        <td>${report.title || "-"}</td>
-                        <td>${report.category || "General"}</td>
-                        <td>${report.status || "Draft"}</td>
-                        <td>${summary}</td>
-                        <td>${date}</td>
+                        <td>${escapeHtml(report.id)}</td>
+                        <td>${escapeHtml(report.title || "-")}</td>
+                        <td>${escapeHtml(report.category || "General")}</td>
+                        <td>${escapeHtml(report.status || "Draft")}</td>
+                        <td>${escapeHtml(summary)}</td>
+                        <td>${escapeHtml(date)}</td>
                         <td>
                             <div class="action-inline">
-                                <button type="button" class="small-btn" data-report-edit="${report.id}">Edit</button>
-                                <button type="button" class="small-btn danger-btn" data-report-delete="${report.id}">Delete</button>
+                                ${actions}
                             </div>
                         </td>
                     </tr>
@@ -2211,6 +2410,16 @@ async function loadReports() {
     } catch (error) {
         console.error("Reports load error:", error);
     }
+}
+
+function escapeHtml(value) {
+    return String(value ?? "").replace(/[&<>"']/g, character => ({
+        "&": "&amp;",
+        "<": "&lt;",
+        ">": "&gt;",
+        "\"": "&quot;",
+        "'": "&#39;"
+    })[character]);
 }
 
 const addReportBtn = document.getElementById("addReportBtn");
@@ -2348,6 +2557,14 @@ async function loadSettings() {
 
         if (profileCompanyNameInput) profileCompanyNameInput.value = settings.companyName || "Maan Transmitter & Deliver";
         if (profileCompanyEmailInput) profileCompanyEmailInput.value = settings.email || "";
+        const profileCompanyPhoneInput = document.getElementById("profileCompanyPhoneInput");
+        const profileBusinessAddressInput = document.getElementById("profileBusinessAddressInput");
+        const profileMerchantAddressInput = document.getElementById("profileMerchantAddressInput");
+        const profileBusinessDetailsInput = document.getElementById("profileBusinessDetailsInput");
+        if (profileCompanyPhoneInput) profileCompanyPhoneInput.value = settings.companyPhone || settings.phone || "";
+        if (profileBusinessAddressInput) profileBusinessAddressInput.value = settings.businessAddress || "";
+        if (profileMerchantAddressInput) profileMerchantAddressInput.value = settings.merchantAddress || "";
+        if (profileBusinessDetailsInput) profileBusinessDetailsInput.value = settings.businessDetails || "";
         if (profileCashierNameInput) profileCashierNameInput.value = JSON.parse(localStorage.getItem("maanUser") || "{}")?.name || "Admin";
         if (profileCashierEmailInput) profileCashierEmailInput.value = JSON.parse(localStorage.getItem("maanUser") || "{}")?.email || "";
         if (profilePhoneInput) profilePhoneInput.value = JSON.parse(localStorage.getItem("maanUser") || "{}")?.phone || "";
@@ -2361,8 +2578,11 @@ async function loadSettings() {
             }
         }
         if (profileCashierImagePreview) {
-            if (settings.cashierImage) {
-                profileCashierImagePreview.src = settings.cashierImage;
+            const currentUser = JSON.parse(localStorage.getItem("maanUser") || "{}");
+            const profileImage = currentUser.avatar || (currentUser.role === "admin" ? settings.cashierImage : "");
+            if (profileImage) {
+                profileCashierImagePreview.src = profileImage;
+                profileCashierImagePreview.onerror = () => profileCashierImagePreview.classList.add("hidden");
                 profileCashierImagePreview.classList.remove("hidden");
             } else {
                 profileCashierImagePreview.src = "";
@@ -2374,6 +2594,7 @@ async function loadSettings() {
         document.getElementById("companyCountryInput").value = settings.country || "Somalia";
         document.getElementById("companyCurrencyInput").value = settings.currency || "USD";
         document.getElementById("companyPhoneInput").value = settings.phone || "";
+        document.getElementById("companyPhoneInput").value = settings.companyPhone || settings.phone || "";
         document.getElementById("companyEmailInput").value = settings.email || "";
         document.getElementById("companyWebsiteInput").value = settings.website || "";
         document.getElementById("companyEdahabNumberInput").value = settings.edahabNumber || "613582084";
@@ -2518,6 +2739,11 @@ if (profileDashboardLogoInput) {
     profileDashboardLogoInput.addEventListener("change", function () {
         const file = this.files && this.files[0];
         if (!file || !profileDashboardLogoPreview) return;
+        if (file.size > 5 * 1024 * 1024) {
+            alert("Company logo-gu waa inuu ka yaraadaa 5 MB.");
+            this.value = "";
+            return;
+        }
         const reader = new FileReader();
         reader.onload = function (event) {
             profileDashboardLogoPreview.src = event.target.result;
@@ -2544,6 +2770,11 @@ if (profileCashierImageInput) {
     profileCashierImageInput.addEventListener("change", function () {
         const file = this.files && this.files[0];
         if (!file || !profileCashierImagePreview) return;
+        if (file.size > 5 * 1024 * 1024) {
+            alert("Profile photo-gu waa inuu ka yaraadaa 5 MB.");
+            this.value = "";
+            return;
+        }
         const reader = new FileReader();
         reader.onload = function (event) {
             profileCashierImagePreview.src = event.target.result;
@@ -2710,95 +2941,287 @@ if (profileForm) {
 }
 
 if (profileSettingsForm) {
+    const changePasswordBtn = document.getElementById("profileChangePasswordBtn");
+    const cancelProfileChangesBtn = document.getElementById("cancelProfileChangesBtn");
+    const saveProfileChangesBtn = document.getElementById("saveProfileChangesBtn");
+    const profileSaveStatus = document.getElementById("profileSaveStatus");
+
+    changePasswordBtn?.addEventListener("click", function () {
+        openAdminModal("password");
+    });
+
+    cancelProfileChangesBtn?.addEventListener("click", function () {
+        profileSettingsForm.reset();
+        if (profileDashboardLogoInput) profileDashboardLogoInput.value = "";
+        if (profileCashierImageInput) profileCashierImageInput.value = "";
+        if (profileSaveStatus) profileSaveStatus.textContent = "";
+        loadSettings();
+    });
+
     profileSettingsForm.addEventListener("submit", async function (event) {
         event.preventDefault();
         const token = localStorage.getItem("maanToken");
         if (!token) return;
 
-        const companyName = document.getElementById("profileCompanyNameInput")?.value.trim() || "Maan Transmitter & Deliver";
-        const companyEmail = document.getElementById("profileCompanyEmailInput")?.value.trim() || "";
-        const cashierName = document.getElementById("profileCashierNameInput")?.value.trim() || "Admin";
-
         const savedUser = JSON.parse(localStorage.getItem("maanUser") || "{}");
-        const cashierEmail = document.getElementById("profileCashierEmailInput")?.value.trim() || savedUser.email || "admin@maan.com";
-        const cashierPhone = document.getElementById("profilePhoneInput")?.value.trim() || savedUser.phone || "";
+        const payload = {
+            name: document.getElementById("profileCashierNameInput").value.trim(),
+            email: document.getElementById("profileCashierEmailInput").value.trim(),
+            phone: document.getElementById("profilePhoneInput").value.trim(),
+            avatar: profileCashierImagePreview?.classList.contains("hidden") ? "" : profileCashierImagePreview?.src || "",
+            companyName: document.getElementById("profileCompanyNameInput").value.trim(),
+            companyEmail: document.getElementById("profileCompanyEmailInput").value.trim(),
+            companyPhone: document.getElementById("profileCompanyPhoneInput").value.trim(),
+            businessAddress: document.getElementById("profileBusinessAddressInput").value.trim(),
+            merchantAddress: document.getElementById("profileMerchantAddressInput").value.trim(),
+            businessDetails: document.getElementById("profileBusinessDetailsInput").value.trim(),
+            logo: profileDashboardLogoPreview?.classList.contains("hidden") ? "" : profileDashboardLogoPreview?.src || ""
+        };
 
-        const dashboardLogo = profileDashboardLogoPreview?.src || "";
-        const cashierImage = profileCashierImagePreview?.src || "";
-
-        if (!cashierName || !cashierEmail || !cashierPhone) {
-            alert("Cashier name, email-ka, iyo lambarka telefoonka waa in la buuxiyaa.");
+        if (!payload.name || !payload.email || !payload.phone || !payload.companyName) {
+            alert("Magaca, email-ka, telefoonka, iyo magaca shirkaddu waa in la buuxiyaa.");
             return;
         }
 
         try {
-            const settingsResponse = await fetch(`${API_URL}/settings`, {
+            if (saveProfileChangesBtn) saveProfileChangesBtn.disabled = true;
+            const response = await fetch(`${API_URL}/admin/profile-settings`, {
                 method: "PUT",
                 headers: {
                     "Content-Type": "application/json",
-                    "Authorization": `Bearer ${token}`
+                    Authorization: `Bearer ${token}`
                 },
-                body: JSON.stringify({
-                    companyName,
-                    email: companyEmail,
-                    phone: cashierPhone,
-                    logo: dashboardLogo,
-                    cashierImage: cashierImage,
-                    menuItems: defaultMenuItems
-                })
+                body: JSON.stringify(payload)
             });
-            const settingsResult = await settingsResponse.json();
-            if (!settingsResult.success) {
-                alert(settingsResult.message || "Settings-ka lama kaydin.");
+            const result = await response.json();
+            if (!response.ok || !result.success) {
+                showProfileMessage(result.message || "Profile-ka lama kaydin.", true);
+                alert(result.message || "Profile-ka iyo xogta ganacsiga lama kaydin.");
                 return;
             }
 
-            const profileResponse = await fetch(`${API_URL}/admin/profile`, {
-                method: "PUT",
-                headers: {
-                    "Content-Type": "application/json",
-                    "Authorization": `Bearer ${token}`
-                },
-                body: JSON.stringify({
-                    name: cashierName,
-                    email: cashierEmail || companyEmail || "admin@maan.com",
-                    phone: cashierPhone,
-                    avatar: cashierImage
-                })
-            });
-            const profileResult = await profileResponse.json();
-
-            if (!profileResult.success) {
-                alert(profileResult.message || "Profile-ka lama badalin.");
-                return;
-            }
-
-            const savedUser = JSON.parse(localStorage.getItem("maanUser") || "{}");
-            const updatedUser = {
-                ...savedUser,
-                name: profileResult.data.name,
-                email: profileResult.data.email,
-                phone: profileResult.data.phone || "",
-                avatar: profileResult.data.avatar || ""
-            };
+            const updatedUser = { ...savedUser, ...result.data.user };
             localStorage.setItem("maanUser", JSON.stringify(updatedUser));
 
             const headerUserAvatar = document.querySelector(".user-avatar");
-            if (headerUserAvatar) {
-                headerUserAvatar.innerHTML = updatedUser.avatar ? `<img src="${updatedUser.avatar}" alt="Admin avatar">` : "A";
+            if (headerUserAvatar && updatedUser.avatar) {
+                headerUserAvatar.innerHTML = `<img src="${updatedUser.avatar}" alt="Profile photo">`;
+            } else if (headerUserAvatar) {
+                headerUserAvatar.textContent = (updatedUser.name || "A").charAt(0).toUpperCase();
             }
-
             const currentUser = document.getElementById("currentUser");
-            if (currentUser) currentUser.textContent = profileResult.data.name || "Admin";
+            if (currentUser) currentUser.textContent = updatedUser.name || "Admin";
+            if (profileCashierImageInput) profileCashierImageInput.value = "";
+            if (profileDashboardLogoInput) profileDashboardLogoInput.value = "";
+            if (profileSaveStatus) profileSaveStatus.textContent = result.message;
 
-            loadSettings();
-            alert("Profile-ka waa la keydiyay.");
+            await loadSettings();
+            alert(result.message);
         } catch (error) {
             console.error("Profile settings update error:", error);
+            showProfileMessage(error.message || "Profile-ka lama kaydin.", true);
             alert("Server-ka lama xiriiri karo.");
+        } finally {
+            if (saveProfileChangesBtn) saveProfileChangesBtn.disabled = false;
         }
     });
 }
+
+function showProfileMessage(message, isError = false) {
+    const status = document.getElementById("profileSaveStatus");
+    if (!status) return;
+    status.textContent = message;
+    status.classList.toggle("profile-status-error", isError);
+}
+
+async function loadBackups() {
+    const tableBody = document.getElementById("backupListBody");
+    if (!tableBody) return;
+
+    const currentUser = JSON.parse(localStorage.getItem("maanUser") || "{}");
+    document.querySelectorAll("[data-profile-admin-only]").forEach(section => {
+        section.classList.toggle("hidden", currentUser.role !== "admin");
+    });
+    if (currentUser.role !== "admin") return;
+
+    const token = localStorage.getItem("maanToken");
+    try {
+        const response = await fetch(`${API_URL}/admin/backups`, {
+            headers: { Authorization: `Bearer ${token}` }
+        });
+        const result = await response.json();
+        if (!response.ok || !result.success) {
+            throw new Error(result.message || "Liiska backup-yada lama soo rari karin.");
+        }
+
+        const backups = result.data || [];
+        tableBody.innerHTML = backups.length ? backups.map(backup => `
+            <tr>
+                <td>${escapeHtml(backup.filename)}</td>
+                <td>${escapeHtml(new Date(backup.createdAt).toLocaleString())}</td>
+                <td>${escapeHtml(backup.type)}</td>
+                <td>
+                    <div class="action-inline">
+                        <button type="button" class="small-btn" data-backup-download="${escapeHtml(backup.filename)}">Download</button>
+                        <button type="button" class="small-btn danger-btn" data-backup-restore="${escapeHtml(backup.filename)}">Restore</button>
+                    </div>
+                </td>
+            </tr>
+        `).join("") : `<tr><td colspan="4">Backup wali lama samayn.</td></tr>`;
+    } catch (error) {
+        console.error("Load backups error:", error);
+        tableBody.innerHTML = `<tr><td colspan="4">${escapeHtml(error.message || "Backup-yada lama soo rari karin.")}</td></tr>`;
+    }
+}
+
+async function downloadAdminFile(endpoint, fallbackName) {
+    const token = localStorage.getItem("maanToken");
+    const response = await fetch(endpoint, {
+        headers: { Authorization: `Bearer ${token}` }
+    });
+    if (!response.ok) {
+        let message = "Faylka lama soo dejisan karin.";
+        try {
+            const result = await response.json();
+            message = result.message || message;
+        } catch (error) {
+            console.error("Download error response could not be read:", error);
+        }
+        throw new Error(message);
+    }
+
+    const disposition = response.headers.get("Content-Disposition") || "";
+    const filename = disposition.match(/filename="([^"]+)"/i)?.[1] || fallbackName;
+    const url = URL.createObjectURL(await response.blob());
+    const link = document.createElement("a");
+    link.href = url;
+    link.download = filename;
+    document.body.appendChild(link);
+    link.click();
+    link.remove();
+    URL.revokeObjectURL(url);
+}
+
+async function restoreDatabaseBackup(backupData) {
+    const token = localStorage.getItem("maanToken");
+    const response = await fetch(`${API_URL}/admin/backups/restore`, {
+        method: "POST",
+        headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${token}`
+        },
+        body: JSON.stringify(backupData)
+    });
+    const result = await response.json();
+    if (!response.ok || !result.success) {
+        throw new Error(result.message || "Backup-ka lama restore-gareyn.");
+    }
+    return result;
+}
+
+const createBackupBtn = document.getElementById("createBackupBtn");
+if (createBackupBtn) {
+    createBackupBtn.addEventListener("click", async function () {
+        const token = localStorage.getItem("maanToken");
+        createBackupBtn.disabled = true;
+        try {
+            const response = await fetch(`${API_URL}/admin/backups`, {
+                method: "POST",
+                headers: { Authorization: `Bearer ${token}` }
+            });
+            const result = await response.json();
+            if (!response.ok || !result.success) {
+                throw new Error(result.message || "Backup-ka lama samayn karin.");
+            }
+            showProfileMessage(result.message);
+            await loadBackups();
+            alert(`${result.message}\n${result.data.filename}`);
+        } catch (error) {
+            console.error("Create backup error:", error);
+            showProfileMessage(error.message || "Backup-ka lama samayn karin.", true);
+            alert(error.message || "Backup-ka lama samayn karin.");
+        } finally {
+            createBackupBtn.disabled = false;
+        }
+    });
+}
+
+const profilePage = document.getElementById("profilePage");
+profilePage?.addEventListener("click", async function (event) {
+    const exportButton = event.target.closest("[data-export-format]");
+    if (exportButton) {
+        try {
+            await downloadAdminFile(
+                `${API_URL}/admin/exports/${encodeURIComponent(exportButton.dataset.exportFormat)}`,
+                `maan-full-data.${exportButton.dataset.exportFormat}`
+            );
+        } catch (error) {
+            console.error("Full data export error:", error);
+            alert(error.message || "Xogta lama export-gareyn karin.");
+        }
+        return;
+    }
+
+    const downloadButton = event.target.closest("[data-backup-download]");
+    if (downloadButton) {
+        try {
+            await downloadAdminFile(
+                `${API_URL}/admin/backups/${encodeURIComponent(downloadButton.dataset.backupDownload)}/download`,
+                downloadButton.dataset.backupDownload
+            );
+        } catch (error) {
+            console.error("Backup download error:", error);
+            alert(error.message || "Backup-ka lama soo dejisan karin.");
+        }
+        return;
+    }
+
+    const restoreButton = event.target.closest("[data-backup-restore]");
+    if (!restoreButton) return;
+    const filename = restoreButton.dataset.backupRestore;
+    if (!confirm(`Restore ${filename}?\n\nDatabase-ka hadda jira waa la beddeli doonaa. Server-ku marka hore badbaado ayuu ka samayn doonaa.`)) return;
+
+    try {
+        const token = localStorage.getItem("maanToken");
+        const downloadResponse = await fetch(`${API_URL}/admin/backups/${encodeURIComponent(filename)}/download`, {
+            headers: { Authorization: `Bearer ${token}` }
+        });
+        if (!downloadResponse.ok) throw new Error("Backup-ka lama soo akhrin karin.");
+        const backupData = await downloadResponse.json();
+        const result = await restoreDatabaseBackup(backupData);
+        alert(result.message);
+        window.location.reload();
+    } catch (error) {
+        console.error("Restore backup error:", error);
+        alert(error.message || "Backup-ka lama restore-gareyn.");
+    }
+});
+
+const restoreBackupFileInput = document.getElementById("restoreBackupFile");
+restoreBackupFileInput?.addEventListener("change", async function () {
+    const file = this.files && this.files[0];
+    if (!file) return;
+    if (file.size > 90 * 1024 * 1024) {
+        alert("Backup file-ku wuxuu ka weyn yahay 90 MB.");
+        this.value = "";
+        return;
+    }
+    if (!confirm(`Restore ${file.name}?\n\nDatabase-ka hadda jira waa la beddeli doonaa. Server-ku marka hore badbaado ayuu ka samayn doonaa.`)) {
+        this.value = "";
+        return;
+    }
+
+    try {
+        const backupData = JSON.parse(await file.text());
+        const result = await restoreDatabaseBackup(backupData);
+        alert(result.message);
+        window.location.reload();
+    } catch (error) {
+        console.error("Uploaded backup restore error:", error);
+        alert(error instanceof SyntaxError ? "Faylka la doortay ma aha JSON sax ah." : error.message || "Backup-ka lama restore-gareyn.");
+        this.value = "";
+    }
+});
 
 if (passwordForm) {
     passwordForm.addEventListener("submit", async function (event) {

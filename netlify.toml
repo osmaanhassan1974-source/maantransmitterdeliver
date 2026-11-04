@@ -1,2 +1,19 @@
 [build]
-  functions = "functions"
+  command = "node scripts/prepare-netlify-public.js"
+  publish = "dist"
+  functions = "netlify/functions"
+
+[functions]
+  node_bundler = "esbuild"
+
+[[redirects]]
+  from = "/api/*"
+  to = "/.netlify/functions/api/api/:splat"
+  status = 200
+  force = true
+
+[functions."automatic-backup"]
+  schedule = "10 21 * * *"
+
+[functions."monthly-close"]
+  schedule = "5 21 28-31 * *"

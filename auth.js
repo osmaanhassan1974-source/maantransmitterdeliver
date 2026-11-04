@@ -5,6 +5,9 @@
 
 const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
+const crypto = require("crypto");
+const fs = require("fs");
+const path = require("path");
 
 const {
     readDatabase,
@@ -18,9 +21,40 @@ const {
 // SECRET KEY
 // ==========================================
 
-const JWT_SECRET =
-    process.env.JWT_SECRET ||
-    "MAAN_TRANSMITTER_SECRET_2026";
+function getJwtSecret() {
+    if (process.env.JWT_SECRET) {
+        if (process.env.JWT_SECRET.length < 32) {
+            throw new Error("JWT_SECRET must be at least 32 characters long.");
+        }
+        return process.env.JWT_SECRET;
+    }
+    if (process.env.NODE_ENV === "production") {
+        throw new Error("JWT_SECRET must be configured in production.");
+    }
+
+    const secretFile = path.join(__dirname, "data", ".jwt-secret");
+    try {
+        const secret = fs.readFileSync(secretFile, "utf8").trim();
+        if (secret.length < 32) throw new Error("The local JWT secret is invalid.");
+        return secret;
+    } catch (error) {
+        if (error.code !== "ENOENT") throw error;
+    }
+
+    fs.mkdirSync(path.dirname(secretFile), { recursive: true });
+    const secret = crypto.randomBytes(32).toString("hex");
+    try {
+        fs.writeFileSync(secretFile, secret, { encoding: "utf8", flag: "wx", mode: 0o600 });
+        return secret;
+    } catch (error) {
+        if (error.code !== "EEXIST") throw error;
+        const existingSecret = fs.readFileSync(secretFile, "utf8").trim();
+        if (existingSecret.length < 32) throw new Error("The local JWT secret is invalid.");
+        return existingSecret;
+    }
+}
+
+const JWT_SECRET = getJwtSecret();
 
 
 // ==========================================
@@ -43,11 +77,13 @@ async function createAdmin() {
     }
 
 
-    const password =
-        "123456";
+    const password = process.env.ADMIN_INITIAL_PASSWORD;
+    if (!password || password.length < 12) {
+        throw new Error("Set ADMIN_INITIAL_PASSWORD to at least 12 characters before creating the first admin account.");
+    }
 
     const hashedPassword =
-        await bcrypt.hash(password, 10);
+        await bcrypt.hash(password, 12);
 
 
     const admin = {
@@ -93,7 +129,7 @@ async function createAdmin() {
 // ==========================================
 
 async function login(
-    email,
+    identifier,
     password
 ) {
 
@@ -104,8 +140,8 @@ async function login(
     const user =
         database.users.find(
             item =>
-                item.email.toLowerCase()
-                === email.toLowerCase()
+                item.email.toLowerCase() === identifier.toLowerCase()
+                || (item.username && item.username.toLowerCase() === identifier.toLowerCase())
         );
 
 
@@ -116,7 +152,7 @@ async function login(
             success: false,
 
             message:
-                "Email-ka lama helin."
+                "Email/username ama password-ka waa khalad."
 
         };
 
@@ -137,7 +173,7 @@ async function login(
             success: false,
 
             message:
-                "Password-ka waa khalad."
+                "Email/username ama password-ka waa khalad."
 
         };
 
@@ -179,9 +215,8 @@ async function login(
             id: user.id,
 
             name: user.name,
-
             email: user.email,
-
+            username: user.username || "",
             phone: user.phone || "",
 
             role: user.role,

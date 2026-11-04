@@ -1,8 +1,12 @@
 const fs = require("fs");
 const path = require("path");
+const crypto = require("crypto");
 
 const dataFolder = path.join(__dirname, "data");
 const databaseFile = path.join(dataFolder, "database.json");
+let requestDatabase = null;
+let requestDatabaseRevision = null;
+let requestDatabaseDirty = false;
 
 const defaultDatabase = {
     users: [],
@@ -16,6 +20,7 @@ const defaultDatabase = {
     income: [],
     reports: [],
     monthlyBills: [],
+    monthlyClosings: [],
     settings: {
         companyName: "Maan Transmitter & Deliver",
         country: "Somalia",
@@ -58,6 +63,7 @@ function createDatabase() {
 }
 
 function readDatabase() {
+    if (requestDatabase) return requestDatabase;
 
     createDatabase();
 
@@ -70,13 +76,49 @@ function readDatabase() {
 }
 
 function saveDatabase(data) {
+    if (requestDatabase) {
+        requestDatabase = data;
+        requestDatabaseDirty = true;
+        return;
+    }
 
     createDatabase();
 
-    fs.writeFileSync(
-        databaseFile,
-        JSON.stringify(data, null, 2)
-    );
+    const temporaryFile = `${databaseFile}.${process.pid}.${crypto.randomBytes(6).toString("hex")}.tmp`;
+    try {
+        fs.writeFileSync(temporaryFile, JSON.stringify(data, null, 2), { flag: "wx" });
+        fs.renameSync(temporaryFile, databaseFile);
+    } catch (error) {
+        try {
+            if (fs.existsSync(temporaryFile)) fs.unlinkSync(temporaryFile);
+        } catch (cleanupError) {
+            console.error("Could not remove incomplete database file:", cleanupError);
+        }
+        throw error;
+    }
+}
+
+function setRequestDatabase(data, revision) {
+    if (!data || typeof data !== "object" || Array.isArray(data)) {
+        throw new TypeError("Remote database state must be an object.");
+    }
+    requestDatabase = data;
+    requestDatabaseRevision = revision;
+    requestDatabaseDirty = false;
+}
+
+function getRequestDatabaseState() {
+    return {
+        data: requestDatabase,
+        revision: requestDatabaseRevision,
+        dirty: requestDatabaseDirty
+    };
+}
+
+function clearRequestDatabase() {
+    requestDatabase = null;
+    requestDatabaseRevision = null;
+    requestDatabaseDirty = false;
 }
 
 function addRecord(collection, record) {
@@ -190,5 +232,8 @@ module.exports = {
     deleteById,
     updateById,
     generateId,
-    currentDate
+    currentDate,
+    setRequestDatabase,
+    getRequestDatabaseState,
+    clearRequestDatabase
 };

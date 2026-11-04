@@ -1,0 +1,10 @@
+# Local Netlify folder
+.netlify
+.env
+data/.jwt-secret
+node_modules/
+dist/
+data/database.json
+data/backups/
+.env.*
+!.env.example
